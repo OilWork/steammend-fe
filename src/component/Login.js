@@ -8,68 +8,35 @@ import './Login.css';
 function Login(){
 
   
-
-  const switchers = [...document.querySelectorAll('.switcher')]
-
-switchers.forEach(item => {
-	item.addEventListener('click', function() {
-		switchers.forEach(item => item.parentElement.classList.toggle('is-active'))
-		this.parentElement.classList.toggle('is-active')
-	})
-})
     return(
 
   <div>
 
-<section className="forms-section">
-  <h1 className="section-title">Animated Forms</h1>
-  <div className="forms">
-    <div className="form-wrapper is-active">
-      <button type="button" className="switcher switcher-login">
-        Login
-        <span className="underline"></span>
-      </button>
-      <form className="form form-login">
-        <fieldset>
-          <legend>Please, enter your email and password for login.</legend>
-          <div className="input-block">
-            <label htmlFor="login-email">E-mail</label>
-            <input id="login-email" type="email" required />
-          </div>
-          <div className="input-block">
-            <label htmlFor="login-password">Password</label>
-            <input id="login-password" type="password" required />
-          </div>
-        </fieldset>
-        <button type="submit" className="btn-login">Login</button>
-      </form>
-    </div>
-    <div className="form-wrapper">
-      <button type="button" className="switcher switcher-signup">
-        Sign Up
-        <span className="underline"></span>
-      </button>
-      <form className="form form-signup">
-        <fieldset>
-          <legend>Please, enter your email, password and password confirmation for sign up.</legend>
-          <div className="input-block">
-            <label htmlFor="signup-email">E-mail</label>
-            <input id="signup-email" type="email" required />
-          </div>
-          <div className="input-block">
-            <label htmlFor="signup-password">Password</label>
-            <input id="signup-password" type="password" required />
-          </div>
-          <div className="input-block">
-            <label htmlFor="signup-password-confirm">Confirm password</label>
-            <input id="signup-password-confirm" type="password" required />
-          </div>
-        </fieldset>
-        <button type="submit" className="btn-signup">Continue</button>
-      </form>
-    </div>
-  </div>
-</section>
+<div class="wrapper">
+
+<input id="signUpBtn" class="signUpBtn" type="radio" name="btn" checked />
+<label for="signUpBtn"></label>
+
+<input id="loginButton" class="loginBtn" type="radio" name="btn" />
+<label for="loginButton"></label>
+
+<form action="" class="form">
+  <label for="fname" class="fname"></label>
+  <input type="text" id="fname" class="fname" placeholder="First Name" />
+
+  <label for="lname" class="lname"></label>
+  <input type="text" id="lname" class="lname" placeholder="Last Name" />
+
+  <label for="email" class="email"></label>
+  <input type="email" id="email" class="email" placeholder="Email" />
+
+  <label for="secret" class="pass"></label>
+  <input type="password" id="secret" class="pass" placeholder="Password" />
+
+  <input type="checkbox" id="formButton" class="formButton" />
+  <label for="formButtom"></label>
+</form>
+</div>
         </div>
 
     );
