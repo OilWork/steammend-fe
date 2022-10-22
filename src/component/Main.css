@@ -207,34 +207,31 @@ html {
     letter-spacing: 0.5px;
 }
 
-.topNav {
-    text-align: center;
-}
 
-.topNav span {
-    font-size: 16px;
-    color: #fff;
-    letter-spacing: 10.5px;
-}
+
+.topnav {
+    overflow: hidden;
+    background-color: #333;
+  }
+  
+  .topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 30px;
+  }
+  
+  .topnav a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
 
 /* Buttons */
 
-.white-button a {
-    display: inline-block;
-    padding: 12px 20px;
-    background-color: #fff;
-    color: #a43f49;
-    font-size: 13px;
-    font-weight: 800;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    transition: all 0.5s;
-}
 
-.white-button a:hover {
-    background-color: #a43f49;
-    color: #fff;
-}
 
 button {
     display: inline-block;
@@ -259,34 +256,6 @@ button:hover {
 
 
 /* Left & Right Post */
-
-.right-image-post {
-    margin-top: 60px;
-    padding-top: 60px;
-    border-top: 2px solid rgba(250, 250, 250, 0.1);
-}
-
-.left-image img,
-.right-image img {
-    border-radius: 5px;
-}
-
-.right-image-post h4,
-.left-image-post h4 {
-    margin-top: 30px;
-}
-
-.right-image-post p,
-.left-image-post p {
-    margin-top: 20px;
-}
-
-.right-image-post .white-button,
-.left-image-post .white-button {
-    margin-top: 30px;
-}
-
-
 
 
 @media screen and (max-width: 1680px) {
