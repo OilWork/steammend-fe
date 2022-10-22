@@ -207,15 +207,27 @@ html {
     letter-spacing: 0.5px;
 }
 
-.topNav {
-    text-align: center;
-}
 
-.topNav span {
-    font-size: 16px;
-    color: #fff;
-    letter-spacing: 10.5px;
-}
+
+.topnav {
+    overflow: hidden;
+    background-color: #333;
+  }
+  
+  .topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 30px;
+  }
+  
+  .topnav a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
 
 /* Buttons */
 
