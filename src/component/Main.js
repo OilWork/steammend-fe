@@ -2,9 +2,16 @@ import React from 'react';
 import './Main.css';
 import { Link } from "react-router-dom";
 import Game from './Game'
+import Comm from './Comm'
 
 
-function Main() {
+
+function Main(prop) {
+  const components = {
+    Game: Game,
+    Comm: Comm
+  };
+  const Test = components[prop.content];
   return (
     <div>
 
@@ -42,12 +49,11 @@ function Main() {
             </div>
             <div className="topNav">
               <div class="topnav">
-                <Link to="/Comm">Home</Link>
+                <Link to="/">Home</Link>
                 <Link to="/Comm">News</Link>
               </div>
             </div>
-            <Game />
-
+            <Test></Test>
           </div>
         </section>
 
