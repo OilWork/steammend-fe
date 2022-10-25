@@ -51,7 +51,7 @@ function Main(prop) {
         valueLabelFormat={valueLabel}
         onChange={handleChange}
         min={10000}
-        max={200000}
+        max={100000}
         step={10000}
         valueLabelDisplay="on"
       />
