@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Main.css';
 import { Link } from "react-router-dom";
 import Game from './Game'
 import Comm from './Comm'
-
+import Box from '@mui/material/Box';
+import Slider from '@mui/material/Slider';
 
 
 function Main(prop) {
@@ -12,6 +13,20 @@ function Main(prop) {
     Comm: Comm
   };
   const Test = components[prop.content];
+
+  let [slideValue, setSlideValue] = useState(100000);
+  
+
+  function valuetext(value) {
+    return `${value}` ;
+  }
+
+  function valueLabel(value) {
+    return value.toLocaleString('ko-KR');
+  }
+  const handleChange = (event, newValue) => {
+    setSlideValue(newValue);
+  };
   return (
     <div>
 
@@ -26,14 +41,31 @@ function Main(prop) {
               </div>
               <div className="author-content">
                 <h4>Filter</h4>
-                <span>제한할 검색 범위</span>
+                <br></br>
+                <br></br>
+                <Box sx={{ width: 150, textAlign: 'center', margin: 'auto',  color: 'primary.main'}}>
+      <Slider
+        aria-label="Always visible"
+        defaultValue={100000}
+        getAriaValueText={valuetext}
+        valueLabelFormat={valueLabel}
+        onChange={handleChange}
+        min={10000}
+        max={200000}
+        step={10000}
+        valueLabelDisplay="on"
+      />
+    </Box>
+
+                <br></br>
+                
               </div>
               <nav className="main-nav" role="navigation">
                 <ul className="main-menu">
-                  <li><a href="#section1">About Me</a></li>
-                  <li><a href="#section2">What I’m good at</a></li>
-                  <li><a href="#section3">My Work</a></li>
-                  <li><a href="#section4">Contact Me</a></li>
+                  <li><a href="#section1">Filter2</a></li>
+                  <li><a href="#section2">Filter3</a></li>
+                  <li><a href="#section3">Filter4</a></li>
+                  <li><a href="#section4">Filter5</a></li>
                 </ul>
               </nav>
 
@@ -48,12 +80,12 @@ function Main(prop) {
               <Link to="/Login"><button>sign in sign up</button></Link>
             </div>
             <div className="topNav">
-              <div class="topnav">
-                <Link to="/">Home</Link>
-                <Link to="/Comm">News</Link>
+              <div className="topnav">
+                <Link to="/">Game</Link>
+                <Link to="/Comm">Community</Link>
               </div>
             </div>
-            <Test></Test>
+            <Test price={slideValue}></Test>
           </div>
         </section>
 

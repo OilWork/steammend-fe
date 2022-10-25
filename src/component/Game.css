@@ -67,7 +67,9 @@
     .list .list-item:not(:last-child){
         border-bottom: 1px solid #EEE;
     }
-
+    .list .list-item a{
+        display: block;
+    }
         /*list item image wrapper*/
         .list .list-item__image{
             flex-shrink: 0;

@@ -1,8 +1,6 @@
 import './App.css';
 import Main from './component/Main';
 import Login from './component/Login';
-import Game from './component/Game'
-import Comm from './component/Comm'
 import {
   BrowserRouter,
   Routes,

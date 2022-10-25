@@ -8,7 +8,7 @@ function Comm() {
         <section class="notice">
   <div class="page-title">
         <div class="container">
-            <h3>공지사항</h3>
+            <h3>커뮤니티</h3>
         </div>
     </div>
 
@@ -20,7 +20,10 @@ function Comm() {
                         <label for="search" class="blind">공지사항 내용 검색</label>
                         <input id="search" type="search" name="" placeholder="검색어를 입력해주세요." value="" />
                         <button type="submit" class="btn btn-dark">검색</button>
+                       
+                        
                     </div>
+                    <button type="submit" class="btn btn-dark">게시글 작성</button>
                 </form>
             </div>
         </div>
