@@ -13,6 +13,7 @@ function App() {
         <Route path="/" element={<Main content="Game"/>} />
         <Route path="login" element={<Login />} />
         <Route path="comm" element={<Main content="Comm"/>} />
+        <Route path="write" element={<Main content="Write"/>} />
       </Routes>
     </BrowserRouter>
 )}

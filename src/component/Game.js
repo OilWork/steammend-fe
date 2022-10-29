@@ -18,6 +18,7 @@ function Game(props){
     const test = [40000, 50000, 60000, 70000];
 
     return(
+        <div>
         <div className="list-wrapper">
           <div className="tabs_wrap">
             <ul>
@@ -61,7 +62,7 @@ function Game(props){
     
     </ul>
     </div>
-        
+    </div>
 
         );
     }

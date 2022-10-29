@@ -159,7 +159,7 @@ html {
 }
 
 .menu {
-    left: 10%;
+    left: 5%;
   -webkit-transition: -webkit-transform 233ms cubic-bezier(0, 0, 0.21, 1);
   -webkit-overflow-scrolling: touch;
   background-color: #1e1e1e;

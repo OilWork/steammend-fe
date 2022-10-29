@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Main.css';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Game from './Game'
 import Comm from './Comm'
+import Write from './Write'
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
+
 
 
 function Main(prop) {
   const components = {
     Game: Game,
-    Comm: Comm
+    Comm: Comm,
+    Write: Write
   };
   const Test = components[prop.content];
 
@@ -27,6 +30,14 @@ function Main(prop) {
   const handleChange = (event, newValue) => {
     setSlideValue(newValue);
   };
+
+  const location = useLocation();
+  console.log(location.pathname)
+  if(location.pathname == '/Comm' || location.pathname=='/Write'){
+    var sidebar = {display:'none'}
+  }else{
+    var sidebar = {displat:'block'}
+  }
   return (
     <div>
 
@@ -39,7 +50,9 @@ function Main(prop) {
               <div className="image">
                 <a href="#"><img alt="main_logo" src="img/logo.png" /></a>
               </div>
-              <div className="author-content">
+              <div style={sidebar}>
+              <div className="author-content" >
+                <br></br>
                 <h4>Filter</h4>
                 <br></br>
                 <br></br>
@@ -68,6 +81,7 @@ function Main(prop) {
                   <li><a href="#section4">Filter5</a></li>
                 </ul>
               </nav>
+              </div>
 
 
             </div>
@@ -86,6 +100,7 @@ function Main(prop) {
               </div>
             </div>
             <Test price={slideValue}></Test>
+            
           </div>
         </section>
 
