@@ -1,4 +1,5 @@
-import React, { useState , useRef} from 'react';
+import React, { useState , useEffect} from 'react';
+import axios from 'axios';
 import './Game.css';
 
 
@@ -6,8 +7,8 @@ import './Game.css';
 
 
 function Game(props){
-    function urlLink(){
-        window.open('https://store.steampowered.com/app/1174180/','_blank');
+    function urlLink(id){
+        window.open(`https://store.steampowered.com/app/${id}/`,'_blank');
     }
 
     const [activeIndex, setActiveIndex] = useState(0);
@@ -15,7 +16,18 @@ function Game(props){
         setActiveIndex(index)
     }
 
-    const test = [40000, 50000, 60000, 70000];
+    const [listData, setListData] = useState([]);
+    useEffect(() =>{
+        axios.get("/sale")
+            .then((response)=> {
+                console.log(response.data);
+                setListData(response.data);
+            })
+            .catch((error)=> {
+                console.log(error);
+            })
+    
+    }, [])
 
     return(
         <div>
@@ -31,29 +43,19 @@ function Game(props){
         </div>
         <ul className="list">
 
-        <li className="list-item" onClick={urlLink}>
-            <div className="list-item__image">
-                <img src="https://cdn.akamai.steamstatic.com/steam/apps/1174180/header.jpg?t=1656615305" alt="Thumbnail" />
-            </div>
-            <div className="list-item__content">
-            <div className='price'><p>30000</p></div>
-                <h4>Red Dead Redemption 2 </h4>
-                
-                <p> 올해의 게임 175여 개를 수상하고 250개 이상의 완벽한 평가를 받은 Red Dead Redemption 2는 현대 시대가 시작될 무렵 무법자인 아서 모건과 악명 높은 반 더 린드 갱단이 미국 전역을 따라 도주하는 장대한 서사시입니다. 모두가 함께 즐길 수 있는 생생한 세계인 Red Dead 온라인 역시 포함됩니다. </p>
-            </div>
+        
+        {listData.filter(data => parseInt(data.price_overview.final) > props.price)
+        .map((data, index) => (
             
-        </li>
-        {test.filter(data => data > props.price)
-        .map((price, index) => (
-            <li className="list-item" onClick={urlLink}>
+            <li className="list-item" onClick={() => urlLink(data.steam_appid)}>
             <div className="list-item__image">
-                <img src="https://cdn.akamai.steamstatic.com/steam/apps/1174180/header.jpg?t=1656615305" alt="Thumbnail" />
+                <img src={data.header_image} alt="Thumbnail" />
             </div>
             <div className="list-item__content">
-            <div className='price'><p key={index}>{price}</p></div>
-                <h4>Red Dead Redemption 2 </h4>
+            <div className='price'><p key={index}>{data.price_overview.final}</p></div>
+                <h4>{data.name}</h4>
                 
-                <p> 올해의 게임 175여 개를 수상하고 250개 이상의 완벽한 평가를 받은 Red Dead Redemption 2는 현대 시대가 시작될 무렵 무법자인 아서 모건과 악명 높은 반 더 린드 갱단이 미국 전역을 따라 도주하는 장대한 서사시입니다. 모두가 함께 즐길 수 있는 생생한 세계인 Red Dead 온라인 역시 포함됩니다. </p>
+                <p>{data.short_description}</p>
             </div>
             
         </li>

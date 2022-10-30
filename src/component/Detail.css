@@ -1,180 +1,33 @@
-	body {
-		font-family: sans-serif;
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-		height: 100vh;
-		justify-content: center;
-		--wrapperWidth: 700px;
-		--wrapperHeight: 400px;
-		--btnWidth: 160px;
-		--btnHeight: 44px;
-		--leftColor: #f2f2f2;
-		--rightColor: #0E4CEB;
-	  }
-	  
-	  h1 {
-		font-weight: lighter;
-		color: #999;
-		font-size: 1em;
-		transform: translateY(-4em);
-	  }
-	  
-	  .wrapper {
-		margin: auto;
-		display: flex;
-		width: var(--wrapperWidth);
-		height: var(--wrapperHeight);
-		background: linear-gradient(to right, var(--leftColor) 50%, white 50%);
-		position: relative;
-		border: 1px solid var(--rightColor);
-	  }
-	  
-	  .loginBtn, .signUpBtn {
-		display: none;
-	  }
-	  
-	  .loginBtn + label, .signUpBtn + label {
-		position: absolute;
-		content: '';
-		cursor: pointer;
-		font-size: 1em;
-		width: var(--btnWidth);
-		height: var(--btnHeight);
-		border: 1px solid var(--rightColor);
-		color: var(--rightColor);
-		bottom: 4em;
-	  }
-	  
-	  .loginBtn + label {
-		right: calc(50% / 2  - var(--btnWidth) / 2 );
-	  }
-	  
-	  .signUpBtn + label {
-		left: calc(50% / 2  - var(--btnWidth) / 2 );
-	  }
-	  
-	  .loginBtn + label:before, .signUpBtn + label:before {
-		position: absolute;
-		color: var(--rightColor);
-		padding-top: calc(var(--btnHeight) / 3);
-		top: 0; right: 0; bottom: 0; left: 0; margin: auto;
-		text-align: center;
-		transition:all .5s;
-	  }
-	  
-	  .loginBtn + label:hover:before, .signUpBtn + label:hover:before {
-		background: var(--rightColor);
-		color: white;
-	  }
-	  
-	  .loginBtn + label:before {
-		content: 'Login';
-	  }
-	  
-	  .signUpBtn + label:before {
-		content: 'Sign Up';
-	  }
-	  
-	  .form {
-		overflow: hidden;
-		box-sizing: border-box;
-		position: absolute;
-		background: white;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-around;
-		padding: .5em 2em;
-		height: 400px;
-		width: 300px;
-		transform: translate3d(calc(var(--wrapperWidth) / 10 ), calc(var(--wrapperHeight) / -10 ), 0);
-		box-shadow: 0 1em 3em rgba(0,0,0,.2);
-		transition: transform .35s ease-in-out;
-	  }
-	  
-	  .form input {
-		height: 44px;
-		outline: none;
-		border: none;
-		border-bottom: 1px solid #f2f2f2;
-		padding: 0 1em;
-		font-size: 1em;
-		transition: all .5s;
-	  }
-	  
-	  .form input:focus {
-		border-bottom: 1px solid #0E4CEB;
-	  }
-	  
-	  .form label {
-		color: #ccc;
-	  }
-	  
-	  .formButton {
-		display: none;
-	  }
-	  
-	  .formButton + label {
-		overflow: hidden;
-		position: relative;
-		cursor: pointer;
-		width: 100%;
-		height: 44px;
-		border-radius: .25em;
-		background: mediumseagreen;
-		transition: all .25s ease-in;
-	  }
-	  
-	  .formButton + label:hover {
-		background: mediumaquamarine;
-	  }
-	  
-	  .formButton + label:before, .formButton + label:after {
-		position: absolute;
-		left: 0; right: 0; top: 0; bottom: 0; margin: auto;
-		text-align: center;
-		color: white;
-		padding-top: .85em;
-		transition: transform .25s ease-in;
-	  }
-	  
-	  .formButton + label:before {
-		content: 'Sign Up';
-	  }
-	  
-	  .formButton + label:after {
-		content: 'Login';
-		transform: translateY(3em);
-	  }
-	  
-	  .fname, .lname, .email, .pass {
-		transition: all .35s ease-out;
-	  }
-	  
-	  .loginBtn:checked ~ .form {
-		transform: translate3d(calc(var(--wrapperWidth) / 2.2 ), calc(var(--wrapperHeight) / -10 ), 0);
-	  }
-	  
-	  .signUpBtn:checked ~ .form {
-		transform: translate3d(calc(var(--wrapperWidth) / 10 ), calc(var(--wrapperHeight) / -10 ), 0);
-	  }
-	  
-	  .loginBtn:checked ~ .form .fname {
-		transform: translateY(-15em);
-	  }
-	  
-	  .loginBtn:checked ~ .form .lname {
-		transform: translateY(-15em);
-	  }
-	  
-	  .loginBtn:checked ~ .form .email, .loginBtn:checked ~ .form .pass {
-		transform: translateY(-10em);
-	  }
-	  
-	  .loginBtn:checked ~ .form .formButton + label:before {
-		transform: translateY(-2em);
-	  }
-	  
-	  .loginBtn:checked ~ .form .formButton + label:after {
-		transform: translateY(0em);
-	  }
+.title-h2{
+    color: #fff;
+}
+
+
+.post-view-wrapper {
+	color: #fff;
+	background-color: darkgray;
+	width: 60%;
+	margin: 0 auto;
+  }
+  
+  .post-view-go-list-btn {
+	border: 0;
+	padding: 10px;
+	background-color: #ffd9d9;
+  }
+  
+  .post-view-row {
+	margin: 10px 0;
+	display: flex;
+  }
+  
+  .post-view-row > label:first-child {
+	margin: 10px 0;
+	width: 30%;
+	font-weight: bold;
+  }
+  
+  .post-view-row > *:nth-child(2) {
+	margin: 10px 0;
+	width: 70%;
+  }

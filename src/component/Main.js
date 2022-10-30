@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './Main.css';
 import { Link, useLocation } from "react-router-dom";
 import Game from './Game'
 import Comm from './Comm'
 import Write from './Write'
+import Detail from './Detail';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 
@@ -13,7 +14,8 @@ function Main(prop) {
   const components = {
     Game: Game,
     Comm: Comm,
-    Write: Write
+    Write: Write,
+    Detail: Detail
   };
   const Test = components[prop.content];
 
@@ -32,12 +34,12 @@ function Main(prop) {
   };
 
   const location = useLocation();
-  console.log(location.pathname)
   if(location.pathname == '/Comm' || location.pathname=='/Write'){
     var sidebar = {display:'none'}
   }else{
     var sidebar = {displat:'block'}
   }
+
   return (
     <div>
 
@@ -48,7 +50,7 @@ function Main(prop) {
 
             <div className="container">
               <div className="image">
-                <a href="#"><img alt="main_logo" src="img/logo.png" /></a>
+                <a href="/"><img alt="main_logo" src="img/logo.png" /></a>
               </div>
               <div style={sidebar}>
               <div className="author-content" >
@@ -99,7 +101,10 @@ function Main(prop) {
                 <Link to="/Comm">Community</Link>
               </div>
             </div>
-            <Test price={slideValue}></Test>
+            <Test price={slideValue} />
+            
+            
+            
             
           </div>
         </section>

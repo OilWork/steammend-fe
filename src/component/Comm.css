@@ -158,8 +158,8 @@ table {
   .list-table {
     color: #fff;
     text-align: center;
-    margin: 0 0 0 -350px;
-    position: relative;
+    margin: 0 0 0 0px;
+    position: inherit;
     top: 0;
     left: 250px;
     width: 100%;
