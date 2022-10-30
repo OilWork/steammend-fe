@@ -1,9 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Comm.css';
 import { Link } from "react-router-dom";
 
 
 function Comm() {
+
+    const [dataList, setDataList] = useState({
+        no: 1,
+        item: [{
+            no: '1',
+            title: '제목12',
+            autor: '나님',
+            data: '오늘'
+        }, {
+            no: '1',
+            title: '제목12',
+            autor: '나님',
+            data: '오늘'
+        }]
+    });
+ 
+
     return (
 
         <section class="notice">
@@ -31,35 +48,42 @@ function Comm() {
                 </div>
             </div>
 
-            
-            <div id="board_area_in"> 
-            <table class="list-table"> 
-            <thead> 
-                <tr>
-                     <th width="70">번호</th> 
-                     <th width="100">제목</th> 
-                     <th width="120">글쓴이</th> 
-                     <th width="100">작성일</th> 
-                </tr> 
-            </thead> 
-            <tbody> 
-                <tr> 
-                    <td>1</td>
-                    <td> 제목 </td> 
-                    <td>글쓴이</td> 
-                    <td>작성일</td> 
-                </tr> 
-            </tbody> 
-            <tbody> 
-                <tr> 
-                    <td>2</td> 
-                    <td> 제목 </td> 
-                    <td>글쓴이</td> 
-                    <td>작성일</td> 
-                </tr> 
-            </tbody> 
-        </table> 
-    </div>
+
+            <div id="board_area_in">
+                <table class="list-table">
+                    <thead>
+                        <tr>
+                            <th width="70">번호</th>
+                            <th width="100">제목</th>
+                            <th width="120">글쓴이</th>
+                            <th width="100">작성일</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {dataList && dataList.item.map((item, index) => (
+                            
+                            <tr key={index}>
+                                
+                                <td>{item.no}</td>
+                                <td><Link to={`/Detail/${item.no}`}>{item.title}</Link></td>
+                                <td>{item.autor}</td>
+                                <td>{item.data}</td>
+                               
+                            </tr>
+                            
+                        ))}
+
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td>2</td>
+                            <td> 제목 </td>
+                            <td>글쓴이</td>
+                            <td>작성일</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
         </section>
     );
