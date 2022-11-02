@@ -20,10 +20,10 @@ function Main(prop) {
   const Test = components[prop.content];
 
   let [slideValue, setSlideValue] = useState(100000);
-  
+
 
   function valuetext(value) {
-    return `${value}` ;
+    return `${value}`;
   }
 
   function valueLabel(value) {
@@ -34,10 +34,10 @@ function Main(prop) {
   };
 
   const location = useLocation();
-  if(location.pathname == '/Comm' || location.pathname=='/Write'){
-    var sidebar = {display:'none'}
-  }else{
-    var sidebar = {displat:'block'}
+  if (location.pathname == '/Comm' || location.pathname == '/Write') {
+    var sidebar = { display: 'none' }
+  } else {
+    var sidebar = { displat: 'block' }
   }
 
   return (
@@ -53,36 +53,36 @@ function Main(prop) {
                 <a href="/"><img alt="main_logo" src="img/logo.png" /></a>
               </div>
               <div style={sidebar}>
-              <div className="author-content" >
-                <br></br>
-                <h4>Filter</h4>
-                <br></br>
-                <br></br>
-                <Box sx={{ width: 150, textAlign: 'center', margin: 'auto',  color: 'primary.main'}}>
-      <Slider
-        aria-label="Always visible"
-        defaultValue={100000}
-        getAriaValueText={valuetext}
-        valueLabelFormat={valueLabel}
-        onChange={handleChange}
-        min={10000}
-        max={100000}
-        step={10000}
-        valueLabelDisplay="on"
-      />
-    </Box>
+                <div className="author-content" >
+                  <br></br>
+                  <h4>Filter</h4>
+                  <br></br>
+                  <br></br>
+                  <Box sx={{ width: 150, textAlign: 'center', margin: 'auto', color: 'primary.main' }}>
+                    <Slider
+                      aria-label="Always visible"
+                      defaultValue={100000}
+                      getAriaValueText={valuetext}
+                      valueLabelFormat={valueLabel}
+                      onChange={handleChange}
+                      min={10000}
+                      max={100000}
+                      step={10000}
+                      valueLabelDisplay="on"
+                    />
+                  </Box>
 
-                <br></br>
-                
-              </div>
-              <nav className="main-nav" role="navigation">
-                <ul className="main-menu">
-                  <li><a href="#section1">Filter2</a></li>
-                  <li><a href="#section2">Filter3</a></li>
-                  <li><a href="#section3">Filter4</a></li>
-                  <li><a href="#section4">Filter5</a></li>
-                </ul>
-              </nav>
+                  <br></br>
+
+                </div>
+                <nav className="main-nav" role="navigation">
+                  <ul className="main-menu">
+                    <li><a href="#section1">Filter2</a></li>
+                    <li><a href="#section2">Filter3</a></li>
+                    <li><a href="#section3">Filter4</a></li>
+                    <li><a href="#section4">Filter5</a></li>
+                  </ul>
+                </nav>
               </div>
 
 
@@ -93,7 +93,9 @@ function Main(prop) {
         <section className="section about-me" data-section="section1">
           <div className="container">
             <div className="section-heading">
-              <Link to="/Login"><button>sign in sign up</button></Link>
+              {sessionStorage.getItem("loginId") ?
+                <Link to="/Login"><button>my info</button></Link>
+                : <Link to="/Login"><button>sign in sign up</button></Link>}
             </div>
             <div className="topNav">
               <div className="topnav">
@@ -102,10 +104,10 @@ function Main(prop) {
               </div>
             </div>
             <Test price={slideValue} />
-            
-            
-            
-            
+
+
+
+
           </div>
         </section>
 
