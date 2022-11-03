@@ -19,7 +19,7 @@ function Game(props) {
 
     const [listData, setListData] = useState([]);
     useEffect(() => {
-        axios.get("/sale")
+        axios.get("/api2/all")
             .then((response) => {
                 console.log(response.data);
                 setListData(response.data);
@@ -45,7 +45,7 @@ function Game(props) {
                 <ul className="list">
 
 
-                    {listData.filter(data => parseInt(data.price_overview.final) > props.price)
+                    {listData.filter(data => parseInt(data.price_overview.final/100) < props.price || data.is_free== true)
                         .map((data, index) => (
 
                             <li className="list-item" onClick={() => urlLink(data.steam_appid)}>
@@ -53,7 +53,7 @@ function Game(props) {
                                     <img src={data.header_image} alt="Thumbnail" />
                                 </div>
                                 <div className="list-item__content">
-                                    <div className='price'><p key={index}>{data.price_overview.final}</p></div>
+                                    <div className='price'><p key={index}>{data.price_overview.final_formatted}</p></div>
                                     <h4>{data.name}</h4>
 
                                     <p>{data.short_description}</p>

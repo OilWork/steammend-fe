@@ -8,7 +8,6 @@ import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { koKR } from '@mui/x-date-pickers/locales';
 
 
 
@@ -77,6 +76,7 @@ function Login() {
         }
       });
       console.log(response);
+      alert("가입이 완료되었습니다");
     } catch (error) {
       //응답 실패
       console.error(error);
