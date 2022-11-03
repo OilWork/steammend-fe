@@ -5,6 +5,7 @@ import Game from './Game'
 import Comm from './Comm'
 import Write from './Write'
 import Detail from './Detail';
+import DashBoard from './DashBoard';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 
@@ -15,7 +16,8 @@ function Main(prop) {
     Game: Game,
     Comm: Comm,
     Write: Write,
-    Detail: Detail
+    Detail: Detail,
+    DashBoard: DashBoard
   };
   const Test = components[prop.content];
 
@@ -101,6 +103,9 @@ function Main(prop) {
               <div className="topnav">
                 <Link to="/">Game</Link>
                 <Link to="/Comm">Community</Link>
+                {sessionStorage.getItem("loginId") ?
+                <Link to="/DashBoard">my info</Link>
+                : ""}
               </div>
             </div>
             <Test price={slideValue} />
