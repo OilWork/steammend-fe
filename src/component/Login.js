@@ -152,8 +152,8 @@ function Login() {
             <label>NickName</label>
           </div>
           <div class="user-box">
-            <input type="text" value={dateFormat}  required="" />
-            <label>BirthDay</label>
+            <input type="text" value={joinSteam_Id}  onChange={(e) => setJoinSteam_id(e.target.value)} required="" />
+            <label>steam_id</label>
           </div>
           <div class="user-box">
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='ko'>

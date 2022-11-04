@@ -116,20 +116,24 @@ function DashBoard() {
     }
 
     useEffect(() => {
-        // async function call(){
-        //     const temp = await axios.get("/api2/charts/76561198073180731");
-        // }
-        axios.get("/api2/charts/76561198073180731")
-        .then((response) => {
-            setData(response.data);
-            console.log(response.data);
-        })
-        .catch((error) => {
-            console.log(error);
-        })
-
-
-    }, [])
+      console.log(sessionStorage.getItem("loginId"));
+        async function getChart() {
+          try {
+            //응답 성공 
+            const response = await axios.post("/api2/charts", null, {
+              params: {
+                id: sessionStorage.getItem("loginId")
+              }
+            });
+            console.log(response);
+            setData(response.data)
+          } catch (error) {
+            //응답 실패
+            console.error(error);
+          }
+        }
+        getChart();
+        }, []);
 
     const tagData = data.wordcloud_data.wordarray;
     const tagChart = anychart.tagCloud(tagData);
