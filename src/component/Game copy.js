@@ -16,13 +16,6 @@ function Game(props) {
     const obsRef = useRef(null); //observer Element
     const endRef = useRef(false); //모든 글 로드 확인
 
-
-    const changeTab = (tab) => {
-        setItems([]);
-        setPage(0);
-        setChoose(tab);
-    }
-
     useEffect(() => {
         const observer = new IntersectionObserver(obsHandler, { threshold: 0.5 });
         if (obsRef.current) observer.observe(obsRef.current);
@@ -33,6 +26,7 @@ function Game(props) {
         const target = entries[0];
         if (!endRef.current && target.isIntersecting && preventRef.current) { //옵저버 중복 실행 방지
             preventRef.current = false; //옵저버 중복 실행 방지
+            console.log(page);
             setPage(prev => prev + 1); //페이지 값 증가
         }
     })
@@ -48,12 +42,13 @@ function Game(props) {
 
     const [page, setPage] = useState(0);
     const [load, setLoad] = useState(false);
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState([])
 
     useEffect(()=> {
+        
             getItems();
         
-    }, [page]);
+    }, []);
     
 
     const getItems = useCallback(async () => {
@@ -63,6 +58,7 @@ function Game(props) {
             preventRef.current = true; 
             setLoad(false);
         })
+        console.log(page);
     }, [page])
 
 
@@ -74,12 +70,11 @@ function Game(props) {
             <div className="list-wrapper">
                 <div className="tabs_wrap">
                     <ul>
-                        <li id="test" className={activeIndex == 0 ? "active" : ""} onClick={() => {tabClickHandler(0); changeTab('all');}}>인기순</li>
-                        <li id="test2" className={activeIndex == 1 ? "active" : ""} onClick={() => {tabClickHandler(1); changeTab('free');}}>무료게임</li>
-                        <li id="test2" className={activeIndex == 2 ? "active" : ""} onClick={() => {tabClickHandler(2); changeTab('sale');}}>세일중인 게임</li>
-                        <li id="test2" className={activeIndex == 3 ? "active" : ""} onClick={() => {tabClickHandler(3); changeTab('new');}}>신규게임</li>
-                        {sessionStorage.getItem("loginId") ? <li id="test2" className={activeIndex == 4 ? "active" : ""} onClick={() => tabClickHandler(4)}>test5</li>
-                        :""}
+                        <li id="test" className={activeIndex == 0 ? "active" : ""} onClick={() => tabClickHandler(0)}>인기순</li>
+                        <li id="test2" className={activeIndex == 1 ? "active" : ""} onClick={() => tabClickHandler(1)}>test2</li>
+                        <li id="test2" className={activeIndex == 2 ? "active" : ""} onClick={() => tabClickHandler(2)}>test3</li>
+                        <li id="test2" className={activeIndex == 3 ? "active" : ""} onClick={() => tabClickHandler(3)}>test4</li>
+                        <li id="test2" className={activeIndex == 4 ? "active" : ""} onClick={() => tabClickHandler(4)}>test5</li>
                     </ul>
                 </div>
                 <ul className="list">
@@ -102,7 +97,8 @@ function Game(props) {
                             </li>
 
                         ))}
-                     <div ref={obsRef}></div>
+                        {page !==0 && <div ref={obsRef}></div>}
+                     
 
                 </ul>
             </div>
