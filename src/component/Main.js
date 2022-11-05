@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Main.css';
 import { Link, useLocation } from "react-router-dom";
+import axios from 'axios';
 import Game from './Game'
 import Comm from './Comm'
 import Write from './Write'
@@ -41,6 +42,29 @@ function Main(prop) {
   } else {
     var sidebar = { displat: 'block' }
   }
+
+    async function logout() {
+
+      try {
+        //응답 성공 
+        const response = await axios.post("/api/userlogout.do", null, {
+          params: {
+            id: sessionStorage.getItem('loginId')
+          }
+        });
+        if (response.data == 'logout') {
+          sessionStorage.clear();
+          window.location.replace("/");
+        } else {
+          alert('오류발생');
+        }
+      } catch (error) {
+        //응답 실패
+        console.error(error);
+      }
+    }
+  
+
 
   return (
     <div>
@@ -96,7 +120,7 @@ function Main(prop) {
           <div className="container">
             <div className="section-heading">
               {sessionStorage.getItem("loginId") ?
-                <Link to="/Login"><button>my info</button></Link>
+                <Link><button onClick={logout}>my info</button></Link>
                 : <Link to="/Login"><button>sign in sign up</button></Link>}
             </div>
             <div className="topNav">

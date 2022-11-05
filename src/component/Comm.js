@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import './Comm.css';
 import { Link } from "react-router-dom";
-
+import axios from 'axios';
 
 function Comm() {
-
+    const [commPage, setCommPage] = useState(0);
+    const [items, setItems] = useState();
     const [dataList, setDataList] = useState({
         no: 1,
         item: [{
@@ -19,7 +20,20 @@ function Comm() {
             data: '오늘'
         }]
     });
- 
+    useEffect(()=> {
+        getItems();
+    
+}, [commPage]);
+
+
+const getItems = useCallback(async () => {
+    
+    await axios.get('/api/allCommunity').then((res) => {
+        console.log(res.data.length);
+        // setItems(prev => prev.concat(res.data));
+        })
+    }, [commPage])
+
 
     return (
 

@@ -47,7 +47,8 @@ function Login() {
         alert('잘못된 아이디 혹은 비밀번호 입니다')
       } else {
         console.log(response);
-        sessionStorage.setItem("loginId", response.data);
+        sessionStorage.setItem("loginId", response.data[0]);
+        sessionStorage.setItem("NickName", response.data[1]);
         console.log(sessionStorage.getItem("loginId"));
         navigate(-1);
       }
@@ -98,7 +99,6 @@ function Login() {
         setCheck("중복되는 ID입니다");
       }
     } catch (error) {
-      //응답 실패
       console.error(error);
     }
   }
