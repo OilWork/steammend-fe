@@ -103,11 +103,9 @@ html {
 
 
 
-.main-nav li {
-    display: block;
-}
 
-.main-nav li a {
+
+.main-nav li{
     height: 70px;
     line-height: 70px;
     display: inline-block;
@@ -118,9 +116,11 @@ html {
     transition: all 0.5s;
 }
 
-.main-nav li:hover a {
+.main-nav li:hover,
+.main-nav li.active{
     color: #8c363e;
 }
+
 
 /* Sidebar Menu */
 

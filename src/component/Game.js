@@ -50,32 +50,32 @@ function Game(props) {
     const [load, setLoad] = useState(false);
     const [items, setItems] = useState([]);
 
-    useEffect(()=> {
-            getItems();
-        
+    useEffect(() => {
+        getItems();
+
     }, [page]);
-    
+
 
     const getItems = useCallback(async () => {
         setLoad(true);
-        if(chose != 'main-recomm'){
+        if (chose != 'main-recomm') {
             var url = `/api2/${chose}?start=${page}`
-        }else{
+        } else {
             var url = `/api2/${chose}?id=${sessionStorage.getItem('loginId')}`
         }
         await axios.get(url).then((res) => {
             console.log(res.data.length);
             setItems(prev => prev.concat(res.data));
             setLoad(false);
-            preventRef.current = true; 
-            if(res.data.length < 30){
+            preventRef.current = true;
+            if (res.data.length < 30) {
                 endRef.current = true;
             }
         })
     }, [page])
 
-    
-  
+
+
 
 
     return (
@@ -83,18 +83,43 @@ function Game(props) {
             <div className="list-wrapper">
                 <div className="tabs_wrap">
                     <ul>
-                        <li id="test" className={activeIndex == 0 ? "active" : ""} onClick={() => {tabClickHandler(0); changeTab('all');}}>인기순</li>
-                        <li id="test2" className={activeIndex == 1 ? "active" : ""} onClick={() => {tabClickHandler(1); changeTab('free');}}>무료게임</li>
-                        <li id="test2" className={activeIndex == 2 ? "active" : ""} onClick={() => {tabClickHandler(2); changeTab('sale');}}>세일중인 게임</li>
-                        <li id="test2" className={activeIndex == 3 ? "active" : ""} onClick={() => {tabClickHandler(3); changeTab('new');}}>신규게임</li>
-                        {sessionStorage.getItem("loginId") ? <li id="test2" className={activeIndex == 4 ? "active" : ""} onClick={() => {tabClickHandler(4); changeTab('main-recomm');}}>추천게임</li>
-                        :""}
+                        <li id="test" className={activeIndex == 0 ? "active" : ""} onClick={() => { tabClickHandler(0); changeTab('all'); }}>인기순</li>
+                        <li id="test2" className={activeIndex == 1 ? "active" : ""} onClick={() => { tabClickHandler(1); changeTab('free'); }}>무료게임</li>
+                        <li id="test2" className={activeIndex == 2 ? "active" : ""} onClick={() => { tabClickHandler(2); changeTab('sale'); }}>세일중인 게임</li>
+                        <li id="test2" className={activeIndex == 3 ? "active" : ""} onClick={() => { tabClickHandler(3); changeTab('new'); }}>신규게임</li>
+                        {sessionStorage.getItem("loginId") ? <li id="test2" className={activeIndex == 4 ? "active" : ""} onClick={() => { tabClickHandler(4); changeTab('main-recomm'); }}>추천게임</li>
+                            : ""}
                     </ul>
                 </div>
+                <div id="board-search2">
+                    <div class="container-comm">
+                        <div class="search-window">
+                            <div class="search-wrap">
+                                <input id="search" type="search" name="" placeholder="검색어를 입력해주세요." value="" />
+                                <button type="submit" class="btn btn-dark">검색</button>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br></br>
                 <ul className="list">
+                    <li className="list-item">
+                        <div className="list-item__image">
+                            <img alt="Thumbnail" />
+                        </div>
+                        <div className="list-item__content">
+                            <div className='price'><p>trst</p></div>
+                            <h4>set</h4>
 
+                            <p>set</p>
+                        </div>
 
-                    {items && chose !=='main-recomm' ? items.filter(data => parseInt(data.price_overview.final / 100) < props.price || data.is_free == true)
+                    </li>
+
+                    {items && chose !== 'main-recomm' ? items.filter(data => parseInt(data.price_overview.final / 100) < props.price || data.is_free == true)
                         .map((data, index) => (
 
                             <li className="list-item" onClick={() => urlLink(data.steam_appid)}>
@@ -110,23 +135,23 @@ function Game(props) {
 
                             </li>
 
-                        )): items.filter(data => parseInt(data['price_overview.final'] / 100) < props.price || data['is_free'] == true)
-                        .map((data, index) => (
+                        )) : items.filter(data => parseInt(data['price_overview.final'] / 100) < props.price || data['is_free'] == true)
+                            .map((data, index) => (
 
-                            <li className="list-item" onClick={() => urlLink(data['steam_appid'])}>
-                                <div className="list-item__image">
-                                    <img src={data['header_image']} alt="Thumbnail" />
-                                </div>
-                                <div className="list-item__content">
-                                    <div className='price'><p key={index}>{data['price_overview.final_formatted']}</p></div>
-                                    <h4>{data['name']}</h4>
+                                <li className="list-item" onClick={() => urlLink(data['steam_appid'])}>
+                                    <div className="list-item__image">
+                                        <img src={data['header_image']} alt="Thumbnail" />
+                                    </div>
+                                    <div className="list-item__content">
+                                        <div className='price'><p key={index}>{data['price_overview.final_formatted']}</p></div>
+                                        <h4>{data['name']}</h4>
 
-                                    <p>{data['short_description']}</p>
-                                </div>
+                                        <p>{data['short_description']}</p>
+                                    </div>
 
-                            </li>))}
-                            {chose =='main-recomm' ?  "" : <div ref={obsRef}></div>}
-                    
+                                </li>))}
+                    {chose == 'main-recomm' ? "" : <div ref={obsRef}></div>}
+
 
                 </ul>
             </div>

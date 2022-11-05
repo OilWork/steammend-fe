@@ -64,7 +64,11 @@ function Main(prop) {
       }
     }
   
-
+    const [mainActiveIndex, setMainActiveIndex] = useState(0);
+    const tabClickHandler = (index) => {
+      setMainActiveIndex(index)
+      console.log(mainActiveIndex)
+    }
 
   return (
     <div>
@@ -103,10 +107,10 @@ function Main(prop) {
                 </div>
                 <nav className="main-nav" role="navigation">
                   <ul className="main-menu">
-                    <li><a href="#section1">Filter2</a></li>
-                    <li><a href="#section2">Filter3</a></li>
-                    <li><a href="#section3">Filter4</a></li>
-                    <li><a href="#section4">Filter5</a></li>
+                    <li className={mainActiveIndex == 0 ? "active" : ""} onClick={() => { tabClickHandler(0);}}>Filter2</li>
+                    <li className={mainActiveIndex == 1 ? "active" : ""} onClick={() => { tabClickHandler(1);}}>Filter3</li>
+                    <li className={mainActiveIndex == 2 ? "active" : ""} onClick={() => { tabClickHandler(2);}}>Filter4</li>
+                    <li className={mainActiveIndex == 3 ? "active" : ""} onClick={() => { tabClickHandler(3);}}>Filter5</li>
                   </ul>
                 </nav>
               </div>
