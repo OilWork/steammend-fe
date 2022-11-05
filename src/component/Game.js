@@ -9,7 +9,7 @@ import { useInView } from "react-intersection-observer"
 
 
 function Game(props) {
-    const [chose, setChoose] = useState("all");
+    const [chose, setChose] = useState("all");
 
 
     const preventRef = useRef(true); //중복 실행 방지
@@ -20,7 +20,7 @@ function Game(props) {
     const changeTab = (tab) => {
         setItems([]);
         setPage(0);
-        setChoose(tab);
+        setChose(tab);
     }
 
     useEffect(() => {
@@ -58,14 +58,23 @@ function Game(props) {
 
     const getItems = useCallback(async () => {
         setLoad(true);
-        await axios.get(`/api2/${chose}?start=${page}`).then((res) => {
+        if(chose != 'main-recomm'){
+            var url = `/api2/${chose}?start=${page}`
+        }else{
+            var url = `/api2/${chose}?id=${sessionStorage.getItem('loginId')}`
+        }
+        await axios.get(url).then((res) => {
+            console.log(res.data.length);
             setItems(prev => prev.concat(res.data));
-            preventRef.current = true; 
             setLoad(false);
+            preventRef.current = true; 
+            if(res.data.length < 30){
+                endRef.current = true;
+            }
         })
     }, [page])
 
-
+    
   
 
 
@@ -78,14 +87,14 @@ function Game(props) {
                         <li id="test2" className={activeIndex == 1 ? "active" : ""} onClick={() => {tabClickHandler(1); changeTab('free');}}>무료게임</li>
                         <li id="test2" className={activeIndex == 2 ? "active" : ""} onClick={() => {tabClickHandler(2); changeTab('sale');}}>세일중인 게임</li>
                         <li id="test2" className={activeIndex == 3 ? "active" : ""} onClick={() => {tabClickHandler(3); changeTab('new');}}>신규게임</li>
-                        {sessionStorage.getItem("loginId") ? <li id="test2" className={activeIndex == 4 ? "active" : ""} onClick={() => tabClickHandler(4)}>test5</li>
+                        {sessionStorage.getItem("loginId") ? <li id="test2" className={activeIndex == 4 ? "active" : ""} onClick={() => {tabClickHandler(4); changeTab('main-recomm');}}>추천게임</li>
                         :""}
                     </ul>
                 </div>
                 <ul className="list">
 
 
-                    {items && items.filter(data => parseInt(data.price_overview.final / 100) < props.price || data.is_free == true)
+                    {items && chose !=='main-recomm' ? items.filter(data => parseInt(data.price_overview.final / 100) < props.price || data.is_free == true)
                         .map((data, index) => (
 
                             <li className="list-item" onClick={() => urlLink(data.steam_appid)}>
@@ -101,8 +110,23 @@ function Game(props) {
 
                             </li>
 
-                        ))}
-                     <div ref={obsRef}></div>
+                        )): items.filter(data => parseInt(data['price_overview.final'] / 100) < props.price || data['is_free'] == true)
+                        .map((data, index) => (
+
+                            <li className="list-item" onClick={() => urlLink(data['steam_appid'])}>
+                                <div className="list-item__image">
+                                    <img src={data['header_image']} alt="Thumbnail" />
+                                </div>
+                                <div className="list-item__content">
+                                    <div className='price'><p key={index}>{data['price_overview.final_formatted']}</p></div>
+                                    <h4>{data['name']}</h4>
+
+                                    <p>{data['short_description']}</p>
+                                </div>
+
+                            </li>))}
+                            {chose =='main-recomm' ?  "" : <div ref={obsRef}></div>}
+                    
 
                 </ul>
             </div>
