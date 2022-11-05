@@ -128,7 +128,7 @@
 	}
   }
   
-  .login-box a span:nth-child(2) , .login-box2 a span:nth-child{
+  .login-box a span:nth-child(2) , .login-box2 a span:nth-child(2){
 	top: -100%;
 	right: 0;
 	width: 2px;
@@ -173,7 +173,7 @@
 	height: 100%;
 	background: linear-gradient(360deg, transparent, #03e9f4);
 	animation: btn-anim4 1s linear infinite;
-	animation-delay: .75s
+	animation-delay: .75s;
   }
   
   @keyframes btn-anim4 {
