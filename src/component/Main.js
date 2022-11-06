@@ -37,10 +37,10 @@ function Main(prop) {
   };
 
   const location = useLocation();
-  if (location.pathname == '/Comm' || location.pathname == '/Write') {
-    var sidebar = { display: 'none' }
+  if (location.pathname == '/') {
+    var sidebar = { display: 'block' }
   } else {
-    var sidebar = { displat: 'block' }
+    var sidebar = { display: 'none' }
   }
 
     async function logout() {
@@ -64,7 +64,7 @@ function Main(prop) {
       }
     }
   
-    const [mainActiveIndex, setMainActiveIndex] = useState(0);
+    const [mainActiveIndex, setMainActiveIndex] = useState();
     const tabClickHandler = (index) => {
       setMainActiveIndex(index)
       console.log(mainActiveIndex)
@@ -80,7 +80,7 @@ function Main(prop) {
 
             <div className="container">
               <div className="image">
-                <a href="/"><img alt="main_logo" src="img/logo.png" /></a>
+                <a href="/"><img alt="main_logo" src="img/logo_transparent.png" /></a>
               </div>
               <div style={sidebar}>
                 <div className="author-content" >

@@ -5,11 +5,13 @@ import Chart from 'chart.js/auto';
 import { Bar, Doughnut, Radar } from 'react-chartjs-2';
 import AnyChart from "anychart-react";
 import anychart from "anychart";
-
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 
 function DashBoard() {
 
+    const [inLoad, setInLoad] = useState(true)
     const [data, setData] = useState({
         "check": "check test",
         "genre_data": [
@@ -127,6 +129,7 @@ function DashBoard() {
             });
             console.log(response);
             setData(response.data)
+            setInLoad(false);
           } catch (error) {
             //응답 실패
             console.error(error);
@@ -139,55 +142,62 @@ function DashBoard() {
     const tagChart = anychart.tagCloud(tagData);
 
   return (
-<div class="container">
-<div class="main">
-  <div class="cards">
-    <div class="card">
-      <div class="card-content">
-        <div class="number" id="total-playtime">{data.total_playtime}</div>
-        <div class="card-name">총 플레이 시간(분)</div>
+    <>
+    {inLoad ? <div className='Circular'>
+    <br></br><br></br>
+    <Box sx={{ display: 'flex', justifyContent: 'center'}}>
+    <CircularProgress size="10rem"/>
+ </Box></div> : <div class="container">
+  <div class="main">
+    <div class="cards">
+      <div class="card">
+        <div class="card-content">
+          <div class="number" id="total-playtime">{data.total_playtime}</div>
+          <div class="card-name">총 플레이 시간(분)</div>
+        </div>
+        <div class="icon-box">
+          <i class="fas fa-gamepad"></i>
+        </div>
       </div>
-      <div class="icon-box">
-        <i class="fas fa-gamepad"></i>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-content">
-        <div class="number" id="total-count">{data.total_count}</div>
-        <div class="card-name">총 구매 게임건수</div>
-      </div>
-      <div class="icon-box">
-        <i class="fas fa-credit-card"></i>
-      </div>
-    </div>
-  </div>
-  <div class="charts">
-    <div class="chart">
-      <h2>게임별 플레이 시간</h2>
-      <Bar data={playtimeCanvasData} option={playtimeCanvasOption} />
-      <canvas id="playtimeChart"></canvas>
-    </div>
-    <div class="chart">
-      <h2>장르별 구매 비율</h2>
-      <Radar data={genreCanvasData} option={genreCanvasOption}></Radar>
-    </div>
-    <div class="chart">
-      <h2>태그 클라우드</h2>
-      <div class="chart-area">
-      <AnyChart width={800} height={600} instance={tagChart} />,
-        <div id="wordcloud">
+      <div class="card">
+        <div class="card-content">
+          <div class="number" id="total-count">{data.total_count}</div>
+          <div class="card-name">총 구매 게임건수</div>
+        </div>
+        <div class="icon-box">
+          <i class="fas fa-credit-card"></i>
         </div>
       </div>
     </div>
-    <div class="chart">
-      <h2>게임 제작사별 구매 비율</h2>
-      <canvas id="publisherChart"></canvas>
-      <Doughnut data={publisherCanvasData}></Doughnut>
+    <div class="charts">
+      <div class="chart">
+        <h2>게임별 플레이 시간</h2>
+        <Bar data={playtimeCanvasData} option={playtimeCanvasOption} />
+        <canvas id="playtimeChart"></canvas>
+      </div>
+      <div class="chart">
+        <h2>장르별 구매 비율</h2>
+        <Radar data={genreCanvasData} option={genreCanvasOption}></Radar>
+      </div>
+      <div class="chart">
+        <h2>태그 클라우드</h2>
+        <div class="chart-area">
+        <AnyChart width={800} height={600} instance={tagChart} />,
+          <div id="wordcloud">
+          </div>
+        </div>
+      </div>
+      <div class="chart">
+        <h2>게임 제작사별 구매 비율</h2>
+        <canvas id="publisherChart"></canvas>
+        <Doughnut data={publisherCanvasData}></Doughnut>
+      </div>
     </div>
   </div>
-</div>
-</div>
+  </div>}
+     
 
+  </>
 
   );
 }

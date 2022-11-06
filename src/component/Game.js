@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
-import { useAsync } from 'react-async'
 import './Game.css';
-import { useInView } from "react-intersection-observer"
-
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 
 
@@ -18,10 +17,20 @@ function Game(props) {
 
 
     const changeTab = (tab) => {
+        if(chose == 'search' || chose == 'main-recomm'){
+            window.location.replace("/");
+        }
         setItems([]);
         setPage(0);
         setChose(tab);
     }
+
+    const search = (tab) => {
+        setItems([]);
+        setPage(0);
+        setChose(tab);
+        tabClickHandler(6);
+        }
 
     useEffect(() => {
         const observer = new IntersectionObserver(obsHandler, { threshold: 0.5 });
@@ -49,33 +58,43 @@ function Game(props) {
     const [page, setPage] = useState(0);
     const [load, setLoad] = useState(false);
     const [items, setItems] = useState([]);
-
+    const [keyword, setKeyword] = useState([]);
     useEffect(() => {
+
         getItems();
 
     }, [page]);
 
-
     const getItems = useCallback(async () => {
+     
         setLoad(true);
-        if (chose != 'main-recomm') {
-            var url = `/api2/${chose}?start=${page}`
-        } else {
+        if (chose == 'main-recomm') {
             var url = `/api2/${chose}?id=${sessionStorage.getItem('loginId')}`
+        } else {
+            if (chose == 'search'){
+                var url = `/api2/${chose}?start=${page}&keyword=${keyword}`
+            }else{
+                var url = `/api2/${chose}?start=${page}`
         }
+    }
         await axios.get(url).then((res) => {
-            console.log(res.data.length);
+            if(res.data.length==0){
+                alert("검색결과가 없습니다");
+            }else{
+            console.log(res.data);
             setItems(prev => prev.concat(res.data));
             setLoad(false);
             preventRef.current = true;
+            if(chose=='search'){
+            }
             if (res.data.length < 30) {
                 endRef.current = true;
             }
+        }
         })
     }, [page])
 
-
-
+    
 
 
     return (
@@ -95,8 +114,8 @@ function Game(props) {
                     <div class="container-comm">
                         <div class="search-window">
                             <div class="search-wrap">
-                                <input id="search" type="search" name="" placeholder="검색어를 입력해주세요." value="" />
-                                <button type="submit" class="btn btn-dark">검색</button>
+                                <input type="text" placeholder="검색어를 입력해주세요." value={keyword} onChange={(e) => setKeyword(e.target.value)}/>
+                                <button type="button" class="btn btn-dark" onClick={() => {search('search');}}>검색</button>
 
 
 
@@ -106,20 +125,9 @@ function Game(props) {
                 </div>
                 <br></br>
                 <ul className="list">
-                    <li className="list-item">
-                        <div className="list-item__image">
-                            <img alt="Thumbnail" />
-                        </div>
-                        <div className="list-item__content">
-                            <div className='price'><p>trst</p></div>
-                            <h4>set</h4>
+                    
 
-                            <p>set</p>
-                        </div>
-
-                    </li>
-
-                    {items && chose !== 'main-recomm' ? items.filter(data => parseInt(data.price_overview.final / 100) < props.price || data.is_free == true)
+                    {!load ? items && chose !== 'main-recomm' ? items.filter(data => parseInt(data.price_overview.final / 100) < props.price || data.is_free == true)
                         .map((data, index) => (
 
                             <li className="list-item" onClick={() => urlLink(data.steam_appid)}>
@@ -149,8 +157,12 @@ function Game(props) {
                                         <p>{data['short_description']}</p>
                                     </div>
 
-                                </li>))}
-                    {chose == 'main-recomm' ? "" : <div ref={obsRef}></div>}
+                                </li>)) : <div className='Circular'>
+    <br></br><br></br>
+    <Box sx={{ display: 'flex', justifyContent: 'center'}}>
+    <CircularProgress size="10rem"/>
+ </Box></div>}
+                    {chose == 'main-recomm' ? "" : chose =='search' ? "" : <div ref={obsRef}></div>}
 
 
                 </ul>
