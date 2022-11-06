@@ -13,62 +13,61 @@ function Comm() {
     const [view, setView] = useState("all");
     const [filterHeader, setFilterHeader] = useState();
     const [commActiveIndex, setCommActiveIndex] = useState(0);
+
     useEffect(() => {
         getItems();
     }, [commPage, commActiveIndex, view]);
 
 
     const getItems = useCallback(async () => {
-        if(view == 'all'){
+        if (view == 'all') {
             var url = `/api/allCommunity?page=${commPage}`
         }
-        if(view == 'search'){
+        if (view == 'search') {
             var url = `api/search?page=${commPage}&keyword=${filterHeader}`
-       }
-       console.log(url);
+        }
         await axios.get(url).then((res) => {
             setEndPage(true);
             setDataList(res.data);
-            if(res.data.length < 10){
+            if (res.data.length < 10) {
                 setEndPage(false);
             }
         })
-    }, [commPage, commActiveIndex, view])
+    }, [commPage, commActiveIndex, view]);
 
 
 
     const tabClickHandler = (commIndex, header) => {
         setCommActiveIndex(commIndex);
-        if(commIndex === 0){
+        if (commIndex === 0) {
             setCommPage('sada')
             setDataList();
             setView('all');
             setEndPage(true);
             setCommPage(1);
-        }if(!commIndex == 0){
+        } if (!commIndex == 0) {
             setCommPage('sada')
             setView('search');
             setFilterHeader(header);
             setCommPage(1);
         }
-    }
+    };
 
-    const searchButton = (() =>{
+    const searchButton = (() => {
         setCommActiveIndex(1344);
         setCommPage('sada')
         setView('search');
         setFilterHeader(searchComm);
-        console.log(filterHeader);
         setCommPage(1);
 
-    })
+    });
 
     const forward = (() => {
         setCommPage(prev => prev + 1);
-    })
+    });
     const backward = (() => {
-        setCommPage(prev => prev -1);
-    })
+        setCommPage(prev => prev - 1);
+    });
     return (
 
         <section class="notice">
@@ -80,10 +79,10 @@ function Comm() {
             <div className="list-wrapper">
                 <div className="tabs_wrap">
                     <ul>
-                        <li id="test" className={commActiveIndex == 0 ? "active" : ""} onClick={() => { tabClickHandler(0, '');}}>전체</li>
-                        <li id="test2" className={commActiveIndex == 1 ? "active" : ""} onClick={() => { tabClickHandler(1, '잡담');}}>잡담</li>
-                        <li id="test2" className={commActiveIndex == 2 ? "active" : ""} onClick={() => { tabClickHandler(2, '파티 모집');}}>파티 모집</li>
-                        <li id="test2" className={commActiveIndex == 3 ? "active" : ""} onClick={() => { tabClickHandler(3, '공략');}}>공략</li>
+                        <li id="test" className={commActiveIndex == 0 ? "active" : ""} onClick={() => { tabClickHandler(0, ''); }}>전체</li>
+                        <li id="test2" className={commActiveIndex == 1 ? "active" : ""} onClick={() => { tabClickHandler(1, '잡담'); }}>잡담</li>
+                        <li id="test2" className={commActiveIndex == 2 ? "active" : ""} onClick={() => { tabClickHandler(2, '파티 모집'); }}>파티 모집</li>
+                        <li id="test2" className={commActiveIndex == 3 ? "active" : ""} onClick={() => { tabClickHandler(3, '공략'); }}>공략</li>
 
                     </ul>
                 </div>
@@ -92,8 +91,8 @@ function Comm() {
                         <div class="search-window">
                             <form action="">
                                 <div class="search-wrap">
-                                    <input type="text" placeholder="검색어를 입력해주세요." value={searchComm} onChange={(e) => setSearchComm(e.target.value)}/>
-                                    <button type="button" class="btn btn-dark" onClick={() => {searchButton()}}>검색</button>
+                                    <input type="text" placeholder="검색어를 입력해주세요." value={searchComm} onChange={(e) => setSearchComm(e.target.value)} />
+                                    <button type="button" class="btn btn-dark" onClick={() => { searchButton() }}>검색</button>
 
 
                                 </div>
@@ -137,10 +136,10 @@ function Comm() {
                 </table>
                 <br></br>
                 <div className='pageArrow'>
-                    { commPage ==1 ? "" : <ArrowBackIosIcon sx={{ fontSize: 40 }} onClick={backward}></ArrowBackIosIcon>}
-                    
-                    {endPage ? <ArrowForwardIosIcon sx={{ fontSize: 40 }} onClick={forward}></ArrowForwardIosIcon> :""}
-                   
+                    {commPage == 1 ? "" : <ArrowBackIosIcon sx={{ fontSize: 40 }} onClick={backward}></ArrowBackIosIcon>}
+
+                    {endPage ? <ArrowForwardIosIcon sx={{ fontSize: 40 }} onClick={forward}></ArrowForwardIosIcon> : ""}
+
                 </div>
             </div>
 

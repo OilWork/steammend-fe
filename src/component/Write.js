@@ -2,21 +2,22 @@ import React, { useEffect, useState } from 'react';
 import './Write.css';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import CryptoJS from 'crypto-js';
 
 
 function Write() {
     const [head, setHead] = useState('잡담');
     const [title, setTitle] = useState('');
     const [context, setContext] = useState('');
-    const [number, setNumber] = useState();
     const location = useLocation();
 
-    
+    const navigate = useNavigate();
+
 
 
     useEffect(()=>{
         if(location.state){
-            console.log(location.state.no);
             setHead(location.state.head);
             setContext(location.state.content);
             setTitle(location.state.title)
@@ -25,31 +26,30 @@ function Write() {
 
     const posting = () => {
         const sendParam = {
-            memberId: sessionStorage.getItem('loginId'),
+            memberId: JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem('loginId'), sessionStorage.getItem("NickName")).toString(CryptoJS.enc.Utf8))['id'],
             header: head,
             title: title,
             content: context
-        }
+        };
 
         axios.post("/api/add", sendParam)
             .then((res) => {
                 if(res.data==true){
                     alert('작성이 완료되었습니다');
+                    window.location.replace("/Comm");
                 }else{
                     alert('오류가 발생하였습니다 다시 시도해주세요');
                 }
-                console.log(res);
             })
             .catch((error) => {
                 alert('오류가 발생하였습니다 다시 시도해주세요');
-                console.log(error.response);
             })
-    }
+    };
 
     const update = () => {
         const sendParam = {
             id: location.state.no,
-            memberId: sessionStorage.getItem('loginId'),
+            memberId: JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem('loginId'), sessionStorage.getItem("NickName")).toString(CryptoJS.enc.Utf8))['id'],
             header: head,
             title: title,
             content: context
@@ -59,16 +59,16 @@ function Write() {
             .then((res) => {
                 if(res.data==true){
                     alert('수정이 완료되었습니다');
+                    navigate(-1);
+
                 }else{
                     alert('오류가 발생하였습니다 다시 시도해주세요');
                 }
-                console.log(res);
             })
             .catch((error) => {
                 alert('오류가 발생하였습니다 다시 시도해주세요');
-                console.log(error.response);
             })
-    }
+    };
 
     return (
 
