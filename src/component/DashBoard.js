@@ -13,6 +13,8 @@ import CryptoJS from 'crypto-js';
 function DashBoard(prop) {
 
   const [inLoad, setInLoad] = useState(true);
+  const [recom, setRecom] = useState([]);
+  const [indexSlide, setIndexSlide] = useState(0);
   const [data, setData] = useState({
     "check": "check test",
     "genre_data": [
@@ -118,32 +120,67 @@ function DashBoard(prop) {
       hoverOffset: 4
     }]
   }
+  async function getChart() {
+    try {
+      //응답 성공 
+      const response = await axios.post("/api2/charts", null, {
+        params: {
+          id: JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem('loginId'), sessionStorage.getItem("NickName")).toString(CryptoJS.enc.Utf8))['id']
+        }
+      });
+      console.log(response);
+      setData(response.data)
+      setInLoad(false);
+    } catch (error) {
+      //응답 실패
+      console.error(error);
+    }
+  };
+  async function getRecommend() {
+    try {
+      //응답 성공 
+      const response = await axios.post("/api2/my-recomm", null, {
+        params: {
+          id: JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem('loginId'), sessionStorage.getItem("NickName")).toString(CryptoJS.enc.Utf8))['id']
+        }
+      });
+      console.log(response.data);
+      setRecom(response.data);
+    } catch (error) {
+      //응답 실패
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    async function getChart() {
-      try {
-        //응답 성공 
-        const response = await axios.post("/api2/charts", null, {
-          params: {
-            id: JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem('loginId'), sessionStorage.getItem("NickName")).toString(CryptoJS.enc.Utf8))['id']
-          }
-        });
-        console.log(response);
-        setData(response.data)
-        setInLoad(false);
-      } catch (error) {
-        //응답 실패
-        console.error(error);
-      }
-    }
+    getRecommend();
+  }, []);
+  useEffect(() => {
     getChart();
   }, []);
+
+  const plusSlides = (index) =>{
+    let slideindex = indexSlide + index;
+    if(slideindex==-1){
+      slideindex = 4;
+    }if(slideindex==5){
+      slideindex = 0;
+    }
+    setIndexSlide(slideindex)
+  }
+  
 
   const tagData = data.wordcloud_data.wordarray;
   const tagChart = anychart.tagCloud(tagData);
 
+
+  function urlLink(id) {
+    window.open(`https://store.steampowered.com/app/${id}/`, '_blank');
+}
+
   return (
-    <>{ prop.menuSeleted == 0 ?
+    <>
+    {prop.menuSeleted == 0 ?
       inLoad ? <div className='Circular'>
         <br></br><br></br>
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -195,7 +232,43 @@ function DashBoard(prop) {
             </div>
           </div>
         </div>
-      </div>: ''}
+      </div> : !inLoad ? <><div class="container">
+      
+        <div class="mySlides" style={{display : indexSlide ==0 ? "block" : 'none'}}>
+        <div class="numbertext">1 / 5</div>
+        <img src={`https://cdn.akamai.steamstatic.com/steam/apps/${recom[0].appid}/header.jpg`} style={{width:'100%'}} />
+      </div>
+        <div class="mySlides" style={{display : indexSlide ==1 ? "block" : 'none'}}>
+        <div class="numbertext">2 / 5</div>
+        <img src={`https://cdn.akamai.steamstatic.com/steam/apps/${recom[1].appid}/header.jpg`} style={{width:'100%'}} />
+      </div>
+        <div class="mySlides" style={{display : indexSlide ==2 ? "block" : 'none'}}>
+        <div class="numbertext">3 / 5</div>
+        <img src={`https://cdn.akamai.steamstatic.com/steam/apps/${recom[2].appid}/header.jpg`} style={{width:'100%'}} />
+      </div>
+        <div class="mySlides" style={{display : indexSlide ==3 ? "block" : 'none'}}>
+        <div class="numbertext">4 / 5</div>
+        <img src={`https://cdn.akamai.steamstatic.com/steam/apps/${recom[3].appid}/header.jpg`} style={{width:'100%'}} />
+      </div>
+        <div class="mySlides" style={{display : indexSlide ==4 ? "block" : 'none'}}>
+        <div class="numbertext">5 / 5</div>
+        <img src={`https://cdn.akamai.steamstatic.com/steam/apps/${recom[4].appid}/header.jpg`} style={{width:'100%'}} />
+      </div>
+        
+
+        <a class="prev" onClick={() => plusSlides(-1)}>&#10094;</a>
+        <a class="next" onClick={() => plusSlides(1)}>&#10095;</a>
+
+
+        <div class="row2">
+          {recom[indexSlide].recommend_list.map((item, index) => (
+            <div class="column2" key={index} onClick={() => urlLink(item.steam_appid)}>
+            <img class="demo cursor" src={item.header_image} style={{width:'100%'}} onclick="currentSlide(1)" alt="The Woods" />
+          </div>
+          ))}
+          
+        </div>
+      </div> </> : ''}
 
 
     </>

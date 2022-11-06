@@ -65,7 +65,7 @@ function Main(prop) {
       }
     }
   
-    const [mainActiveIndex, setMainActiveIndex] = useState();
+    const [mainActiveIndex, setMainActiveIndex] = useState(0);
     const tabClickHandler = (index) => {
       setMainActiveIndex(index)
     }
