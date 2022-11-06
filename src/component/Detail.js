@@ -33,7 +33,8 @@ const update = () =>{
   navigate('/Write',{state:{
     title: detail.title,
     content: detail.content,
-    head: detail.header
+    head: detail.header,
+    no: no
   }});
 };
 
@@ -93,7 +94,8 @@ await axios.get(`/api/community?id=${no}`).then((res) => {
           ) : '해당 게시글을 찾을 수 없습니다.'
         }
         <button className="post-view-go-list-btn" onClick={() => navigate(-1)}>목록으로 돌아가기</button>
-        <button className="post-view-go-list-btn" onClick={update}>수정하기</button>
+        {sessionStorage.getItem('loginId')==detail.memberId ? <button className="post-view-go-list-btn" onClick={update}>수정하기</button> : ""}
+        
       </div>
     </>
 

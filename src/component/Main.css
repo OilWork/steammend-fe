@@ -125,14 +125,15 @@ html {
 /* Sidebar Menu */
 
 .menu .image {
-    margin-top: 60px;
+    margin-top: 40px;
 }
 
 .menu .image img {
-    width: 140px;
-    height: 140px;
+    width: 400px;
+    height: 200px;
     border-radius: 50%;
     text-align: center;
+    object-fit: cover;
 }
 
 
