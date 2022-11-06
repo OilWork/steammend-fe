@@ -9,6 +9,7 @@ import Detail from './Detail';
 import DashBoard from './DashBoard';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
+import CryptoJS from 'crypto-js';
 
 
 
@@ -37,7 +38,7 @@ function Main(prop) {
   };
 
   const location = useLocation();
-  if (location.pathname == '/') {
+  if (location.pathname == '/' || location.pathname=='/DashBoard') {
     var sidebar = { display: 'block' }
   } else {
     var sidebar = { display: 'none' }
@@ -49,7 +50,7 @@ function Main(prop) {
         //응답 성공 
         const response = await axios.post("/api/userlogout.do", null, {
           params: {
-            id: sessionStorage.getItem('loginId')
+            id: JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem('loginId'), sessionStorage.getItem("NickName")).toString(CryptoJS.enc.Utf8))['id']
           }
         });
         if (response.data == 'logout') {
@@ -67,7 +68,6 @@ function Main(prop) {
     const [mainActiveIndex, setMainActiveIndex] = useState();
     const tabClickHandler = (index) => {
       setMainActiveIndex(index)
-      console.log(mainActiveIndex)
     }
 
   return (
@@ -82,10 +82,11 @@ function Main(prop) {
               <div className="image">
                 <a href="/"><img alt="main_logo" src="img/logo_transparent.png" /></a>
               </div>
+              {location.pathname == '/' ?
               <div style={sidebar}>
                 <div className="author-content" >
                   <br></br>
-                  <h4>Filter</h4>
+                  <h4>가격</h4>
                   <br></br>
                   <br></br>
                   <Box sx={{ width: 150, textAlign: 'center', margin: 'auto', color: 'primary.main' }}>
@@ -105,15 +106,23 @@ function Main(prop) {
                   <br></br>
 
                 </div>
+              </div> : <div style={sidebar}>
+                <div className="author-content" >
+                  <br></br>
+                  <h4>Menu</h4>
+                  <br></br>
+                  <br></br>
+                  
+                  <br></br>
+
+                </div>
                 <nav className="main-nav" role="navigation">
                   <ul className="main-menu">
-                    <li className={mainActiveIndex == 0 ? "active" : ""} onClick={() => { tabClickHandler(0);}}>Filter2</li>
-                    <li className={mainActiveIndex == 1 ? "active" : ""} onClick={() => { tabClickHandler(1);}}>Filter3</li>
-                    <li className={mainActiveIndex == 2 ? "active" : ""} onClick={() => { tabClickHandler(2);}}>Filter4</li>
-                    <li className={mainActiveIndex == 3 ? "active" : ""} onClick={() => { tabClickHandler(3);}}>Filter5</li>
+                    <li className={mainActiveIndex == 0 ? "active" : ""} onClick={() => { tabClickHandler(0);}}>Visualization</li>
+                    <li className={mainActiveIndex == 1 ? "active" : ""} onClick={() => { tabClickHandler(1);}}>Recommend Game</li>
                   </ul>
                 </nav>
-              </div>
+              </div>}
 
 
             </div>
@@ -124,7 +133,7 @@ function Main(prop) {
           <div className="container">
             <div className="section-heading">
               {sessionStorage.getItem("loginId") ?
-                <Link><button onClick={logout}>my info</button></Link>
+                <Link><button onClick={logout}>Logout</button></Link>
                 : <Link to="/Login"><button>sign in sign up</button></Link>}
             </div>
             <div className="topNav">
@@ -132,11 +141,11 @@ function Main(prop) {
                 <Link to="/">Game</Link>
                 <Link to="/Comm">Community</Link>
                 {sessionStorage.getItem("loginId") ?
-                <Link to="/DashBoard">my info</Link>
+                <Link to="/DashBoard">My Info</Link>
                 : ""}
               </div>
             </div>
-            <Test price={slideValue} />
+            <Test price={slideValue} menuSeleted={mainActiveIndex} />
 
 
 

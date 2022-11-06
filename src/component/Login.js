@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko'
@@ -8,6 +8,7 @@ import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import CryptoJS from 'crypto-js';
 
 
 
@@ -47,7 +48,10 @@ function Login() {
         alert('잘못된 아이디 혹은 비밀번호 입니다')
       } else {
         console.log(response);
-        sessionStorage.setItem("loginId", response.data[0]);
+        const temp = {
+          id : response.data[0]
+        }
+        sessionStorage.setItem("loginId", CryptoJS.AES.encrypt(JSON.stringify(temp), response.data[1]).toString());
         sessionStorage.setItem("NickName", response.data[1]);
         console.log(sessionStorage.getItem("loginId"));
         navigate(-1);
@@ -58,7 +62,7 @@ function Login() {
       //응답 실패
       console.error(error);
     }
-  }
+  };
 
 
 
@@ -76,13 +80,12 @@ function Login() {
           steam_id: joinSteam_Id
         }
       });
-      console.log(response);
       alert("가입이 완료되었습니다");
     } catch (error) {
       //응답 실패
       console.error(error);
     }
-  }
+  };
 
   async function checkId() {
 
@@ -101,7 +104,7 @@ function Login() {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
 
   return (
