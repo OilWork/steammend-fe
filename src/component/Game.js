@@ -22,13 +22,13 @@ function Game(props) {
 
 
     const changeTab = (tab) => {
-        setPage(2313);
+        setItems([]);
         setPage(0);
         setChose(tab);
-        setItems([]);
     }
 
     const search = (tab) => {
+        setPage(2313);
         setPage(0);
         setItems([]);
         setChose(tab);
@@ -62,7 +62,7 @@ function Game(props) {
         
         getItems();
 
-    }, [page]);
+    }, [page, chose, activeIndex]);
 
     const getItems = useCallback(async () => {
 
@@ -90,7 +90,7 @@ function Game(props) {
                 }
             }
         })
-    }, [page]);
+    }, [page, chose, activeIndex]);
 
 
 
