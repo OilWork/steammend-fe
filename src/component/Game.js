@@ -9,6 +9,9 @@ import CryptoJS from 'crypto-js';
 
 
 function Game(props) {
+
+
+
     const [chose, setChose] = useState("all");
     const [page, setPage] = useState(0);
     const [load, setLoad] = useState(false);
@@ -77,8 +80,12 @@ function Game(props) {
             }
         }
         await axios.get(url).then((res) => {
+            console.log(res);
             if (res.data.length == 0) {
                 alert("검색결과가 없습니다");
+            } if(res.data.success==false){
+                alert("로그인이 만료되었습니다 다시 로그인 해주십시오");
+                props.logout();
             } else {
                 setItems(prev => prev.concat(res.data));
                 setLoad(false);
@@ -89,6 +96,16 @@ function Game(props) {
                     endRef.current = true;
                 }
             }
+        }).catch(error =>{
+            if(error.response.status === 500){
+                alert("잘못된 steamId64 입니다");
+                console.log(error.response);
+                window.location.replace("/");
+            }else{
+                alert("예상치 못한 오류가 발생하였습니다");
+                console.log(error.response);
+                window.location.replace("/");
+              }
         })
     }, [page, chose, activeIndex]);
 

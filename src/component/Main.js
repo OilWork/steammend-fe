@@ -145,7 +145,7 @@ function Main(prop) {
                 : ""}
               </div>
             </div>
-            <Test price={slideValue} menuSeleted={mainActiveIndex} />
+            <Test price={slideValue} menuSeleted={mainActiveIndex} logout={logout} />
 
 
 

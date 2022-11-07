@@ -106,6 +106,11 @@ function Login() {
     }
   };
 
+  const findSteamId64 = ()=>{
+    window.open('https://steamid.xyz/', '_blank');
+
+  }
+
 
   return (
 
@@ -155,8 +160,10 @@ function Login() {
             <label>NickName</label>
           </div>
           <div class="user-box">
-            <input type="text" value={joinSteam_Id}  onChange={(e) => setJoinSteam_id(e.target.value)} required="" />
-            <label>steam_id</label>
+          <p className="logCheck" onClick={findSteamId64}>Find steamId64</p>
+            <input className='idLink' type="text" value={joinSteam_Id} placeholder="7xxxxxxxxxxxxxxxx" onChange={(e) => setJoinSteam_id(e.target.value)} required="" />
+            <label>steamId64</label>
+            
           </div>
           <div class="user-box">
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='ko'>
