@@ -2,4 +2,7 @@
 
 ## 파이널 프로젝트 steammend FE Repo
 
-### react_js
+### Installation
+- Install Node/js
+- Install Libary(in package.json dependencies)
+- npm start
