@@ -132,8 +132,15 @@ function DashBoard(prop) {
       setData(response.data)
       setInLoad(false);
     } catch (error) {
-      //응답 실패
-      console.error(error);
+      if(error.response.status === 500){
+        alert("잘못된 steamId64 입니다");
+        console.log(error.response);
+        window.location.replace("/");
+    }else{
+      alert("예상치 못한 오류가 발생하였습니다");
+      console.log(error.response);
+      window.location.replace("/");
+    }
     }
   };
   async function getRecommend() {
@@ -144,11 +151,19 @@ function DashBoard(prop) {
           id: JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem('loginId'), sessionStorage.getItem("NickName")).toString(CryptoJS.enc.Utf8))['id']
         }
       });
-      console.log(response.data);
+      if(response.data.success = false){
+        alert("로그인이 만료되었습니다 다시 로그인 해주십시오");
+        prop.logout();
+      }
       setRecom(response.data);
     } catch (error) {
-      //응답 실패
-      console.error(error);
+      if(error.response.status === 500){
+        console.log(error.response);
+        window.location.replace("/");
+    }else{
+      console.log(error.response);
+      window.location.replace("/");
+    }
     }
   };
 

@@ -1,13 +1,14 @@
 
 	.logCheck {
-		font-size: 20px;
+		font-size: 18px;
 		border-radius: 1px;
-		width: 76px;
+		width: 152px;
 	}
 	.checkResult {
 		color: #03e9f4;
 		font-size: 13px;
 	}
+
 
   .login-box {
 	float: left;
