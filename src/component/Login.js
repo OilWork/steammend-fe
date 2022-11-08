@@ -9,6 +9,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import CryptoJS from 'crypto-js';
+import { paperClasses } from '@mui/material';
 
 
 
@@ -21,7 +22,7 @@ function Login() {
   const [joinBirthday, setJoinBirthday] = useState("");
   const [joinSteam_Id, setJoinSteam_id] = useState("");
 
-  const [check, setCheck] = useState("");
+  const [check, setCheck] = useState(false);
 
   const [loginId, setLoginId] = useState("");
   const [loginPw, setLoginPw] = useState("");
@@ -36,7 +37,6 @@ function Login() {
   async function postLogin() {
 
     try {
-      //응답 성공 
       const response = await axios.post("/api/userlogin.do", null, {
         params: {
           id: loginId,
@@ -44,22 +44,20 @@ function Login() {
         }
       });
       if (response.data === 'fail') {
-        console.log(response);
         alert('잘못된 아이디 혹은 비밀번호 입니다')
       } else {
-        console.log(response);
         const temp = {
           id : response.data[0]
         }
         sessionStorage.setItem("loginId", CryptoJS.AES.encrypt(JSON.stringify(temp), response.data[1]).toString());
         sessionStorage.setItem("NickName", response.data[1]);
-        console.log(sessionStorage.getItem("loginId"));
         navigate(-1);
       }
 
 
     } catch (error) {
-      //응답 실패
+      alert("예상치 못한 에러가 발생했습니다");
+      window.location.replace('/');
       console.error(error);
     }
   };
@@ -67,9 +65,17 @@ function Login() {
 
 
   async function postSignUp() {
+    console.log(check);
+    switch(check){
+      case false:
+        alert('다른 아이디를 입력해주세요');
+        return;
+      case true:
 
+    }
+    
+    
     try {
-      //응답 성공 
       const response = await axios.post("/api/join.do", null, {
         params: {
           id: joinId,
@@ -81,8 +87,10 @@ function Login() {
         }
       });
       alert("가입이 완료되었습니다");
+      window.location.replace('/Login');
     } catch (error) {
-      //응답 실패
+      alert("예상치 못한 에러가 발생했습니다");
+      window.location.replace('/');
       console.error(error);
     }
   };
@@ -90,18 +98,18 @@ function Login() {
   async function checkId() {
 
     try {
-      //응답 성공 
       const response = await axios.post("/api/idcheck.do", null, {
         params: {
           check_id: joinId
         }
       });
-      if (response.data == '가입 가능') {
-        setCheck("사용가능한 ID입니다");
+      if (response.data === '가입 가능') {
+        setCheck(true);
       } else {
-        setCheck("중복되는 ID입니다");
+        setCheck(false);
       }
     } catch (error) {
+      alert("예상치 못한 에러가 발생했습니다");
       console.error(error);
     }
   };
@@ -115,14 +123,14 @@ function Login() {
   return (
 
     <div>
-      <div class="login-box">
+      <div className="login-box">
         <h2>Login</h2>
         <form>
-          <div class="user-box">
+          <div className="user-box">
             <input type="text" value={loginId} onChange={(e) => setLoginId(e.target.value)} required="" />
             <label>Username</label>
           </div>
-          <div class="user-box">
+          <div className="user-box">
             <input type="password" value={loginPw} onChange={(e) => setLoginPw(e.target.value)} required="" />
             <label>Password</label>
           </div>
@@ -136,36 +144,37 @@ function Login() {
         </form>
       </div>
 
-      <div class="login-box2">
+      <div className="login-box2">
         <h2>Sign up</h2>
         <form>
-          <div class="user-box">
+          <div className="user-box">
             <input type="text" value={joinId} onChange={(e) => setJoinId(e.target.value)} required="" />
             <label>ID</label>
           </div>
-          <p className="logCheck" onClick={checkId}>중복 확인</p>
-          <p className="checkResult">{check}</p>
+          
+          {check ? <p className="checkResult">사용가능한 아이디입니다</p> : <p className="logCheck" onClick={checkId}>중복 확인</p>}
+          
           <br></br>
           <br></br>
-          <div class="user-box">
+          <div className="user-box">
             <input type="password" value={joinPw} onChange={(e) => setJoinPw(e.target.value)} required="" />
             <label>Password</label>
           </div>
-          <div class="user-box">
+          <div className="user-box">
             <input type="text" value={joinName} onChange={(e) => setJoinName(e.target.value)} required="" />
             <label>Name</label>
           </div>
-          <div class="user-box">
+          <div className="user-box">
             <input type="text" value={joinNickName} onChange={(e) => setJoinNickName(e.target.value)} required="" />
             <label>NickName</label>
           </div>
-          <div class="user-box">
+          <div className="user-box">
           <p className="logCheck" onClick={findSteamId64}>Find steamId64</p>
             <input className='idLink' type="text" value={joinSteam_Id} placeholder="7xxxxxxxxxxxxxxxx" onChange={(e) => setJoinSteam_id(e.target.value)} required="" />
             <label>steamId64</label>
             
           </div>
-          <div class="user-box">
+          <div className="user-box">
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='ko'>
 
               <DesktopDatePicker

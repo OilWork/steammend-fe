@@ -122,30 +122,25 @@ function DashBoard(prop) {
   }
   async function getChart() {
     try {
-      //응답 성공 
       const response = await axios.post("/api2/charts", null, {
         params: {
           id: JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem('loginId'), sessionStorage.getItem("NickName")).toString(CryptoJS.enc.Utf8))['id']
         }
       });
-      console.log(response);
       setData(response.data)
       setInLoad(false);
     } catch (error) {
       if(error.response.status === 500){
         alert("잘못된 steamId64 입니다");
-        console.log(error.response);
         window.location.replace("/");
     }else{
       alert("예상치 못한 오류가 발생하였습니다");
-      console.log(error.response);
       window.location.replace("/");
     }
     }
   };
   async function getRecommend() {
     try {
-      //응답 성공 
       const response = await axios.post("/api2/my-recomm", null, {
         params: {
           id: JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem('loginId'), sessionStorage.getItem("NickName")).toString(CryptoJS.enc.Utf8))['id']
@@ -158,10 +153,10 @@ function DashBoard(prop) {
       setRecom(response.data);
     } catch (error) {
       if(error.response.status === 500){
-        console.log(error.response);
+        alert("예상치 못한 에러가 발생했습니다");
         window.location.replace("/");
     }else{
-      console.log(error.response);
+      alert("예상치 못한 에러가 발생했습니다");
       window.location.replace("/");
     }
     }
@@ -176,9 +171,9 @@ function DashBoard(prop) {
 
   const plusSlides = (index) =>{
     let slideindex = indexSlide + index;
-    if(slideindex==-1){
+    if(slideindex===-1){
       slideindex = 4;
-    }if(slideindex==5){
+    }if(slideindex===5){
       slideindex = 0;
     }
     setIndexSlide(slideindex)
@@ -195,90 +190,95 @@ function DashBoard(prop) {
 
   return (
     <>
-    {prop.menuSeleted == 0 ?
+    {prop.menuSeleted === 0 ?
       inLoad ? <div className='Circular'>
         <br></br><br></br>
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
           <CircularProgress size="10rem" />
-        </Box></div> : <div class="container">
-        <div class="main">
-          <div class="cards">
-            <div class="card">
-              <div class="card-content">
-                <div class="number" id="total-playtime">{data.total_playtime}</div>
-                <div class="card-name">총 플레이 시간(분)</div>
+        </Box></div> : <div className="container">
+        <div className="main">
+          <div className="cards">
+            <div className="card">
+              <div className="card-content">
+                <div className="number" id="total-playtime">{data.total_playtime}</div>
+                <div className="card-name">총 플레이 시간(분)</div>
               </div>
-              <div class="icon-box">
-                <i class="fas fa-gamepad"></i>
+              <div className="icon-box">
+                <i className="fas fa-gamepad"></i>
               </div>
             </div>
-            <div class="card">
-              <div class="card-content">
-                <div class="number" id="total-count">{data.total_count}</div>
-                <div class="card-name">총 구매 게임건수</div>
+            <div className="card">
+              <div className="card-content">
+                <div className="number" id="total-count">{data.total_count}</div>
+                <div className="card-name">총 구매 게임건수</div>
               </div>
-              <div class="icon-box">
-                <i class="fas fa-credit-card"></i>
+              <div className="icon-box">
+                <i className="fas fa-credit-card"></i>
               </div>
             </div>
           </div>
-          <div class="charts">
-            <div class="chart">
+          <div className="charts">
+            <div className="chart">
               <h2>게임별 플레이 시간</h2>
               <Bar data={playtimeCanvasData} option={playtimeCanvasOption} />
               <canvas id="playtimeChart"></canvas>
             </div>
-            <div class="chart">
+            <div className="chart">
               <h2>장르별 구매 비율</h2>
               <Radar data={genreCanvasData} option={genreCanvasOption}></Radar>
             </div>
-            <div class="chart">
+            <div className="chart">
               <h2>태그 클라우드</h2>
-              <div class="chart-area">
+              <div className="chart-area">
                 <AnyChart width={800} height={600} instance={tagChart} />,
                 <div id="wordcloud">
                 </div>
               </div>
             </div>
-            <div class="chart">
+            <div className="chart">
               <h2>게임 제작사별 구매 비율</h2>
               <canvas id="publisherChart"></canvas>
               <Doughnut data={publisherCanvasData}></Doughnut>
             </div>
           </div>
         </div>
-      </div> : !inLoad ? <><div class="container">
-      
-        <div class="mySlides" style={{display : indexSlide ==0 ? "block" : 'none'}}>
-        <div class="numbertext">1 / 5</div>
-        <img src={`https://cdn.akamai.steamstatic.com/steam/apps/${recom[0].appid}/header.jpg`} style={{width:'100%'}} />
-      </div>
-        <div class="mySlides" style={{display : indexSlide ==1 ? "block" : 'none'}}>
-        <div class="numbertext">2 / 5</div>
-        <img src={`https://cdn.akamai.steamstatic.com/steam/apps/${recom[1].appid}/header.jpg`} style={{width:'100%'}} />
-      </div>
-        <div class="mySlides" style={{display : indexSlide ==2 ? "block" : 'none'}}>
-        <div class="numbertext">3 / 5</div>
-        <img src={`https://cdn.akamai.steamstatic.com/steam/apps/${recom[2].appid}/header.jpg`} style={{width:'100%'}} />
-      </div>
-        <div class="mySlides" style={{display : indexSlide ==3 ? "block" : 'none'}}>
-        <div class="numbertext">4 / 5</div>
-        <img src={`https://cdn.akamai.steamstatic.com/steam/apps/${recom[3].appid}/header.jpg`} style={{width:'100%'}} />
-      </div>
-        <div class="mySlides" style={{display : indexSlide ==4 ? "block" : 'none'}}>
-        <div class="numbertext">5 / 5</div>
-        <img src={`https://cdn.akamai.steamstatic.com/steam/apps/${recom[4].appid}/header.jpg`} style={{width:'100%'}} />
-      </div>
+      </div> : !inLoad ? <><div className="container">
+
+
+      {recom[0] && <div className="mySlides" style={{display : indexSlide === 0 ? "block" : 'none'}}>
+        <div className="numbertext">1 / 5</div>
+        <img src={`https://cdn.akamai.steamstatic.com/steam/apps/${recom[0].appid}/header.jpg`} alt='' style={{width:'100%'}} />
+      </div>}
+      {recom[1] && <div className="mySlides" style={{display : indexSlide === 1 ? "block" : 'none'}}>
+        <div className="numbertext">2 / 5</div>
+        <img src={`https://cdn.akamai.steamstatic.com/steam/apps/${recom[1].appid}/header.jpg`} alt='' style={{width:'100%'}} />
+      </div>}
+      {recom[2] && <div className="mySlides" style={{display : indexSlide === 2 ? "block" : 'none'}}>
+        <div className="numbertext">3 / 5</div>
+        <img src={`https://cdn.akamai.steamstatic.com/steam/apps/${recom[2].appid}/header.jpg`} alt='' style={{width:'100%'}} />
+      </div>}
+        
+      {recom[3] && <div className="mySlides" style={{display : indexSlide === 3 ? "block" : 'none'}}>
+        <div className="numbertext">4 / 5</div>
+        <img src={`https://cdn.akamai.steamstatic.com/steam/apps/${recom[3].appid}/header.jpg`} alt='' style={{width:'100%'}} />
+      </div>}
+        
+      {recom[4] && <div className="mySlides" style={{display : indexSlide === 4 ? "block" : 'none'}}>
+        <div className="numbertext">5 / 5</div>
+        <img src={`https://cdn.akamai.steamstatic.com/steam/apps/${recom[4].appid}/header.jpg`} alt='' style={{width:'100%'}} />
+      </div>}
+        
         
 
-        <a class="prev" onClick={() => plusSlides(-1)}>&#10094;</a>
-        <a class="next" onClick={() => plusSlides(1)}>&#10095;</a>
+        <a className="prev" onClick={() => plusSlides(-1)}>&#10094;</a>
+        <a className="next" onClick={() => plusSlides(1)}>&#10095;</a>
 
 
-        <div class="row2">
+        <div className="row2">
           {recom[indexSlide].recommend_list.map((item, index) => (
-            <div class="column2" key={index} onClick={() => urlLink(item.steam_appid)}>
-            <img class="demo cursor" src={item.header_image} style={{width:'100%'}} onclick="currentSlide(1)" alt="The Woods" />
+            <div className="column2" key={index} onClick={() => urlLink(item.steam_appid)}>
+            <img className="demo cursor" src={item.header_image} style={{width:'100%'}} alt="The Woods" />
+            <p>{item.name}</p><p>{item.short_description}</p>
           </div>
           ))}
           

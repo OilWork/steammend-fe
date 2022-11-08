@@ -34,7 +34,7 @@ function Write() {
 
         axios.post("/api/add", sendParam)
             .then((res) => {
-                if(res.data==true){
+                if(res.data===true){
                     alert('작성이 완료되었습니다');
                     window.location.replace("/Comm");
                 }else{
@@ -57,7 +57,7 @@ function Write() {
 
         axios.post("/api/modify", sendParam)
             .then((res) => {
-                if(res.data==true){
+                if(res.data===true){
                     alert('수정이 완료되었습니다');
                     navigate(-1);
 
@@ -81,19 +81,19 @@ function Write() {
             <br></br>
             <br></br>
             <form>
-                <div class="row">
-                    <div class="col-25">
+                <div className="row">
+                    <div className="col-25">
                         <label for="fname">제목</label>
                     </div>
-                    <div class="col-75">
+                    <div className="col-75">
                         <input type="text" id="fname" name="firstname" value={title} placeholder="제목" onChange={(e) => setTitle(e.target.value)} ></input>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-25">
+                <div className="row">
+                    <div className="col-25">
                         <label for="country">글머리</label>
                     </div>
-                    <div class="col-75">
+                    <div className="col-75">
                         <select id="head" name="head" value={head} onChange={(e) => setHead(e.target.value)} >
                             <option value="잡담">잡담</option>
                             <option value="파티 모집">파티 모집</option>
@@ -101,16 +101,16 @@ function Write() {
                         </select>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-25">
+                <div className="row">
+                    <div className="col-25">
                         <label for="subject">내용</label>
                     </div>
-                    <div class="col-75">
+                    <div className="col-75">
                         <textarea id="subject" name="subject" value={context} placeholder="내용" onChange={(e) => setContext(e.target.value)}></textarea>
                     </div>
                 </div>
                 <br></br>
-                <div class="row">
+                <div className="row">
                     {location.state ?  <button type='button' onClick={update} > 수정 </button> :  <button type='button' onClick={posting} > 입력 </button>}
                    
                 </div>
