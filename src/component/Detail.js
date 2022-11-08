@@ -144,25 +144,25 @@ function Detail(props) {
 
 
 
-        <div class="actionBox">
-          <ul class="commentList">
+        <div className="actionBox">
+          <ul className="commentList">
           {allComment ? allComment.map((item, index) =>(
             <li>
-              <div class="commentText" key={index}>
-                <p class="">{item.content}</p> 
-                <span class="date sub-text">{item.createdAt}</span>
-                <span class="date sub-text">{item.memberId}</span>
+              <div className="commentText" key={index}>
+                <p className="">{item.content}</p> 
+                <span className="date sub-text">{item.createdAt}</span>
+                <span className="date sub-text">{item.memberId}</span>
               </div>
             </li>
           )): ""}
 
           </ul>
-          {sessionStorage.getItem('loginId') ? <form class="form-inline" role="form">
-            <div class="form-group">
-              <input class="form-control" type="text" value={commentWrite} placeholder="Your comments" onChange={(e) => setCommentWrite(e.target.value)}/>
+          {sessionStorage.getItem('loginId') ? <form className="form-inline" role="form">
+            <div className="form-group">
+              <input className="form-control" type="text" value={commentWrite} placeholder="Your comments" onChange={(e) => setCommentWrite(e.target.value)}/>
             </div>
-            <div class="form-group">
-              <button type="button" class="btn btn-default" onClick={addComment}>Add</button>
+            <div className="form-group">
+              <button type="button" className="btn btn-default" onClick={addComment}>Add</button>
             </div>
           </form> : ""}
           
@@ -170,7 +170,7 @@ function Detail(props) {
 
 
         <button className="post-view-go-list-btn" onClick={() => navigate(-1)}>목록으로 돌아가기</button>
-        {JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem('loginId'), sessionStorage.getItem("NickName")).toString(CryptoJS.enc.Utf8))['id'] == detail.memberId ? <><button className="post-view-go-list-btn" onClick={update}>수정하기</button>
+        {sessionStorage.getItem('loginId') && JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem('loginId'), sessionStorage.getItem("NickName")).toString(CryptoJS.enc.Utf8))['id'] === detail.memberId ? <><button className="post-view-go-list-btn" onClick={update}>수정하기</button>
         <button className="post-view-go-list-btn" onClick={deletePost}>삭제하기</button></> : ""}
 
       </div>

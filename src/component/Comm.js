@@ -11,7 +11,7 @@ function Comm() {
     const [dataList, setDataList] = useState();
     const [searchComm, setSearchComm] = useState("");
     const [view, setView] = useState("all");
-    const [filterHeader, setFilterHeader] = useState();
+    const [filterHeader, setFilterHeader] = useState("");
     const [commActiveIndex, setCommActiveIndex] = useState(0);
 
     useEffect(() => {
@@ -20,11 +20,13 @@ function Comm() {
 
 
     const getItems = useCallback(async () => {
-        if (view == 'all') {
-            var url = `/api/allCommunity?page=${commPage}`
-        }
-        if (view == 'search') {
-            var url = `api/search?page=${commPage}&keyword=${filterHeader}`
+        switch(view){
+            case 'all':
+                var url = `/api/allCommunity?page=${commPage}`;
+                break;
+            case 'search':
+                var url = `/api/search?page=${commPage}&keyword=${filterHeader}`
+                break;
         }
         await axios.get(url).then((res) => {
             setEndPage(true);
@@ -40,17 +42,16 @@ function Comm() {
     const tabClickHandler = (commIndex, header) => {
         setCommActiveIndex(commIndex);
         if (commIndex === 0) {
-            setCommPage('sada')
+            setCommPage(1);
             setDataList();
             setView('all');
-            setEndPage(true);
+        } if (commIndex !== 0) {
             setCommPage(1);
-        } if (!commIndex == 0) {
-            setCommPage('sada')
+            setDataList();
             setView('search');
             setFilterHeader(header);
-            setCommPage(1);
         }
+        // console.log(header);
     };
 
     const searchButton = (() => {
@@ -68,35 +69,55 @@ function Comm() {
     const backward = (() => {
         setCommPage(prev => prev - 1);
     });
+
+    const dateFormatter = (writeDate) =>{
+        let temp = writeDate.split('T');
+
+        let today = new Date();   
+
+        let year = today.getFullYear(); // 년도
+        let month = today.getMonth() + 1;  // 월
+        let date = today.getDate();  // 날짜
+        if(date < 10){
+            date = `0${date}`
+        }
+        if(`${year}-${month}-${date}` === temp[0]){
+            return temp[1]
+        }else{
+            return temp[0]
+        }
+    
+    }
+
     return (
 
-        <section class="notice">
-            <div class="page-title">
-                <div class="container">
+        <section className="notice">
+            <div className="page-title">
+                <div className="container">
                     <h3>커뮤니티</h3>
                 </div>
             </div>
             <div className="list-wrapper">
                 <div className="tabs_wrap">
                     <ul>
-                        <li id="test" className={commActiveIndex == 0 ? "active" : ""} onClick={() => { tabClickHandler(0, ''); }}>전체</li>
-                        <li id="test2" className={commActiveIndex == 1 ? "active" : ""} onClick={() => { tabClickHandler(1, '잡담'); }}>잡담</li>
-                        <li id="test2" className={commActiveIndex == 2 ? "active" : ""} onClick={() => { tabClickHandler(2, '파티 모집'); }}>파티 모집</li>
-                        <li id="test2" className={commActiveIndex == 3 ? "active" : ""} onClick={() => { tabClickHandler(3, '공략'); }}>공략</li>
+                        <li id="test" className={commActiveIndex === 0 ? "active" : ""} onClick={() => { tabClickHandler(0, ''); }}>전체</li>
+                        <li id="test2" className={commActiveIndex === 1 ? "active" : ""} onClick={() => { tabClickHandler(1, '잡담'); }}>잡담</li>
+                        <li id="test2" className={commActiveIndex === 2 ? "active" : ""} onClick={() => { tabClickHandler(2, '파티 모집'); }}>파티 모집</li>
+                        <li id="test2" className={commActiveIndex === 3 ? "active" : ""} onClick={() => { tabClickHandler(3, '공략'); }}>공략</li>
 
                     </ul>
                 </div>
                 <div id="board-search">
-                    <div class="container-comm">
-                        <div class="search-window">
+                    <div className="container-comm">
+                        <div className="search-window">
                             <form action="">
-                                <div class="search-wrap">
+                                <div className="search-wrap">
                                     <input type="text" placeholder="검색어를 입력해주세요." value={searchComm} onChange={(e) => setSearchComm(e.target.value)} />
-                                    <button type="button" class="btn btn-dark" onClick={() => { searchButton() }}>검색</button>
+                                    <button type="button" className="btn btn-dark" onClick={() => { searchButton() }}>검색</button>
 
 
                                 </div>
-                                {sessionStorage.getItem('loginId') ? <Link to='/Write'><button type="submit" class="btn btn-dark">게시글 작성</button></Link>
+                                {sessionStorage.getItem('loginId') ? <Link to='/Write'><button type="submit" className="btn btn-dark">게시글 작성</button></Link>
                                     : ""}
 
                             </form>
@@ -107,7 +128,7 @@ function Comm() {
             </div>
 
             <div id="board_area_in">
-                <table class="list-table">
+                <table className="list-table">
                     <thead>
                         <tr>
                             <th width="70">번호</th>
@@ -126,7 +147,7 @@ function Comm() {
                                 <td><Link to={`/Detail/${item.id}`}>{item.title}</Link></td>
                                 <td>{item.memberId}</td>
                                 <td>{item.hit}</td>
-                                <td>{item.createdAt}</td>
+                                <td>{dateFormatter(item.createdAt)}</td>
 
                             </tr>
 
@@ -136,7 +157,7 @@ function Comm() {
                 </table>
                 <br></br>
                 <div className='pageArrow'>
-                    {commPage == 1 ? "" : <ArrowBackIosIcon sx={{ fontSize: 40 }} onClick={backward}></ArrowBackIosIcon>}
+                    {commPage === 1 ? "" : <ArrowBackIosIcon sx={{ fontSize: 40 }} onClick={backward}></ArrowBackIosIcon>}
 
                     {endPage ? <ArrowForwardIosIcon sx={{ fontSize: 40 }} onClick={forward}></ArrowForwardIosIcon> : ""}
 

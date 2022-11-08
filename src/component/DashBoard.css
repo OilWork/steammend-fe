@@ -128,7 +128,7 @@
   .next {
     cursor: pointer;
     position: absolute;
-    top: 40%;
+    top: 10%;
     width: auto;
     padding: 16px;
     margin-top: -50px;
@@ -169,7 +169,9 @@
     color: white;
   }
   
-  .row2:after {
+  .row2 {
+    position: relative;
+    overflow: hidden;
     content: "";
     display: table;
     clear: both;
@@ -177,8 +179,7 @@
   
   /* Six columns side by side */
   .column2 {
-    float: left;
-    width: 20%;
+    width: 50%;
   }
   
   /* Add a transparency effect for thumnbail images */
