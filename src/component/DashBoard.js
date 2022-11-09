@@ -108,7 +108,6 @@ function DashBoard(prop) {
   },[prop.menuSeleted])
 
   const checkChartData= () =>{
-    console.log("test");
       if(data.is_success === false){
         switch(data.error_code){
           case 0:
