@@ -29,7 +29,7 @@ function Comm() {
                 url = `/api/search?page=${commPage}&keyword=${filterHeader}`
                 break;
             default:
-                
+
         }
         await axios.get(url).then((res) => {
             setEndPage(true);
@@ -54,7 +54,6 @@ function Comm() {
             setView('search');
             setFilterHeader(header);
         }
-        // console.log(header);
     };
 
     const searchButton = (() => {
