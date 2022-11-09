@@ -3,10 +3,13 @@
 		font-size: 18px;
 		border-radius: 1px;
 		width: 152px;
+		color: brown;
+
 	}
 	.checkResult {
 		color: #03e9f4;
 		font-size: 13px;
+
 	}
 
 
@@ -49,13 +52,14 @@
   .login-box .user-box , .login-box2 .user-box{
 	position: relative;
   }
-  
+  .validation{
+  }
   .login-box .user-box input, .login-box2 .user-box input {
 	width: 100%;
-	padding: 10px 0;
+	padding: 15px 0;
 	font-size: 16px;
 	color: #fff;
-	margin-bottom: 30px;
+	margin-bottom: 20px;
 	border: none;
 	border-bottom: 1px solid #fff;
 	outline: none;
@@ -65,7 +69,7 @@
 	position: absolute;
 	top:0;
 	left: 0;
-	padding: 10px 0;
+	padding: 15px 0;
 	font-size: 16px;
 	color: #fff;
 	pointer-events: none;
@@ -79,7 +83,7 @@
 	top: -20px;
 	left: 0;
 	color: #03e9f4;
-	font-size: 12px;
+	font-size: 15px;
   }
   
   .login-box form a, .login-box2 form a {

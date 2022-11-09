@@ -14,8 +14,6 @@ function Write() {
 
     const navigate = useNavigate();
 
-
-
     useEffect(()=>{
         if(location.state){
             setHead(location.state.head);

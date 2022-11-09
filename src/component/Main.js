@@ -52,10 +52,11 @@ function Main(prop) {
 
 
   const location = useLocation();
+
   if (location.pathname === '/' || location.pathname === '/DashBoard') {
     var sidebar = { display: 'block' }
   } else {
-    var sidebar = { display: 'none' }
+    sidebar = { display: 'none' }
   }
 
   async function logout() {
@@ -106,7 +107,8 @@ function Main(prop) {
       case "Indie":
         setGameActiveIndex(5)
         break;
-
+      default:
+        
     }
     
   }

@@ -6,11 +6,7 @@ import Box from '@mui/material/Box';
 import CryptoJS from 'crypto-js';
 
 
-
-
 function Game(props) {
-
-
 
     const [chose, setChose] = useState("all");
     const [page, setPage] = useState(0);
@@ -23,14 +19,19 @@ function Game(props) {
     const obsRef = useRef(null); //observer Element
     const endRef = useRef(false); //모든 글 로드 확인
 
-
     const changeTab = (tab) => {
+        if(chose === tab){
+            return;
+        }
         setPage(0);
         setItems([]);
         setChose(tab);
     }
 
     const search = (tab) => {
+        if(chose === tab){
+            return;
+        }
         setPage(0);
         setItems([]);
         setChose(tab);
@@ -45,9 +46,9 @@ function Game(props) {
 
     const obsHandler = ((entries) => {
         const target = entries[0];
-        if (!endRef.current && target.isIntersecting && preventRef.current) { //옵저버 중복 실행 방지
-            preventRef.current = false; //옵저버 중복 실행 방지
-            setPage(prev => prev + 1); //페이지 값 증가
+        if (!endRef.current && target.isIntersecting && preventRef.current && document.documentElement.clientHeight < document.documentElement.scrollHeight) { 
+            preventRef.current = false; 
+            setPage(prev => prev + 1); 
         }
     })
 
@@ -59,31 +60,40 @@ function Game(props) {
         setActiveIndex(index)
     }
 
-
     useEffect(() => {
         getItems();
-
     }, [page, chose, activeIndex]);
+
 
     const getItems = useCallback(async () => {
         setLoad(true);
+        let url = '';
         switch (chose) {
             case 'main-recomm':
-                var url = `/api2/${chose}?id=${JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem('loginId'), sessionStorage.getItem("NickName")).toString(CryptoJS.enc.Utf8))['id']}`
+                url = `/api2/${chose}?id=${JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem('loginId'), sessionStorage.getItem("NickName")).toString(CryptoJS.enc.Utf8))['id']}`
                 break;
             case 'search':
-                var url = `/api2/${chose}?start=${page}&keyword=${keyword}`
+                url = `/api2/${chose}?start=${page}&keyword=${keyword}`
                 break;
             default:
-                var url = `/api2/${chose}?start=${page}`
-        }
-
+                url = `/api2/${chose}?start=${page}`
+        }       
         await axios.get(url).then((res) => {
             if (res.data.length === 0) {
                 alert("검색결과가 없습니다");
-            } if (res.data.success === false) {
-                alert("로그인이 만료되었습니다 다시 로그인 해주십시오");
-                props.logout();
+                return;
+            } 
+            if (res.data.is_success === false) {
+                switch(res.data.error_code){
+                    case 1:
+                        alert("계정의 플레이타임이 존재하지 않습니다");
+                        window.location.replace("/");
+                        return;
+                    default :
+                        alert("로그인이 만료되었습니다 다시 로그인해주십시오");
+                        props.logout();
+                        return;
+                }
             } else {
                 setLoad(false);
                 preventRef.current = true;
@@ -184,17 +194,13 @@ function Game(props) {
                             <div className='Circular'>
                                 <br></br><br></br>
 
-
                                 <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                                     <CircularProgress size="10rem" />
                                 </Box></div>}
 
-
-                    {chose === 'main-recomm' ? "" : chose === 'search' ? "" : <div ref={obsRef}></div>}
-
-
                 </ul>
             </div>
+            {chose === 'main-recomm' ? "" : chose === 'search' ? "" : <div ref={obsRef}></div>}
         </div>
 
     );
