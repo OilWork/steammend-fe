@@ -3,9 +3,16 @@ table {
     border-spacing: 0;
   }
   section.notice {
-    padding: 80px 0;
+    padding: 50px 0;
   }
   
+  .pageArrow{
+    color: #fff;
+    align-items: center;
+    text-align: center;
+    margin: auto;
+  }
+
   .page-title {
     margin-bottom: 60px;
   }
@@ -17,7 +24,7 @@ table {
   }
   
   #board-search .search-window {
-    padding: 15px 0;
+    padding: -5px 0;
     background-color: #1e1e1e;
   }
   #board-search .search-window .search-wrap {
@@ -49,55 +56,7 @@ table {
     font-size: 16px;
   }
   
-  .board-table {
-    font-size: 13px;
-    width: 100%;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-  }
-  
-  .board-table a {
-    color: #FFFFFF;
-    display: inline-block;
-    line-height: 1.4;
-    word-break: break-all;
-    vertical-align: middle;
-  }
-  .board-table a:hover {
-    text-decoration: underline;
-  }
-  .board-table th {
-    text-align: center;
-  }
-  
-  .board-table .th-num {
-    width: 100px;
-    text-align: center;
-  }
-  
-  .board-table .th-date {
-    width: 200px;
-  }
-  
-  .board-table th, .board-table td {
-    padding: 14px 0;
-  }
-  
-  .board-table tbody td {
-    border-top: 1px solid #e7e7e7;
-    text-align: center;
-  }
-  
-  .board-table tbody th {
-    padding-left: 28px;
-    padding-right: 14px;
-    border-top: 1px solid #e7e7e7;
-    text-align: left;
-  }
-  
-  .board-table tbody th p{
-    display: none;
-  }
+ 
   
   .btn {
     display: inline-block;
@@ -175,4 +134,65 @@ table {
     width: 1px;
     height: 1px;
   }
+
+ 
+  /* 공통 */
+ 
+  
+  /* board페이지 공통 */
+  #board_area {
+    width: 800px;
+    position: relative;	
+  }
+  #mem_info {
+    position: absolute;
+    right: 0;
+  }
+  #mem_info > form > ul > li {
+    float:left; margin: 10px;
+  }
+  #board_list {
+    position:relative;
+    font-size:14px;
+    line-height: 30px;
+  }
+  #bo {
+    display:inline-block;
+    position: absolute;
+    left: 0;
+    top:70px;
+  }
+  .list-table {
+    color: #fff;
+    text-align: center;
+    margin: 0 0 0 0px;
+    position: inherit;
+    top: 0;
+    left: 250px;
+    width: 100%;
+  }
+  .list-table thead th{
+    height:40px;
+    border-top:2px solid #09C;
+    border-bottom:1px solid #CCC;
+    font-weight: bold;
+    font-size: 17px;
+  }
+  .list-table tbody td{
+    text-align:center;
+    padding:10px 0;
+    border-bottom:1px solid	 #CCC; height:20px;
+    font-size: 14px 
+  }
+  #write_btn {
+    position: absolute;
+    top: 0;
+  }
+  #write_btn li  {
+    float:left;
+    margin-left:20px;
+  }
+  
+ 
+
   

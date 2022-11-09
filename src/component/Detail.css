@@ -1,0 +1,94 @@
+.title-h2 {
+	color: #fff;
+}
+
+
+.post-view-wrapper {
+	color: #1f1f1f;
+	background-color: darkgray;
+	width: 100%;
+	margin: 0 auto;
+}
+
+.post-view-go-list-btn {
+	border: 0;
+	padding: 10px;
+	background-color: #ffd9d9;
+}
+
+.post-view-row {
+	margin: 10px 0;
+	display: flex;
+}
+
+.post-view-row>label:first-child {
+	margin: 10px 0;
+	width: 30%;
+	font-weight: bold;
+}
+
+
+
+
+.detailBox {
+	width: 320px;
+	border: 1px solid #bbb;
+	margin: 50px;
+}
+
+.titleBox {
+	background-color: #fdfdfd;
+	padding: 10px;
+}
+
+.titleBox label {
+	color: #444;
+	margin: 0;
+	display: inline-block;
+}
+
+.commentBox {
+	padding: 10px;
+	border-top: 1px dotted #bbb;
+}
+
+.actionBox .form-group * {
+	width: 100%;
+}
+
+.commentList {
+	padding: 0;
+	list-style: none;
+	overflow: hidden;
+}
+
+.commentList li {
+	width: 100%;
+	margin: 0;
+	margin-top: 10px;
+}
+
+.commentList li>div {
+	display: table-cell;
+}
+
+.commentText p {
+	margin: 0;
+}
+
+.commentText span {
+	display: flex;
+	width: 100%;
+	margin: 0;
+}
+
+.sub-text {
+	color: #1f1f1f;
+	font-family: verdana;
+	font-size: 11px;
+}
+
+.actionBox {
+	border-top: 1px dotted #bbb;
+	padding: 10px;
+}
