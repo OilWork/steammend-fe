@@ -16,6 +16,7 @@ function DashBoard(prop) {
   const [recom, setRecom] = useState([]);
   const [indexSlide, setIndexSlide] = useState(0);
   const [checkChart, setCheckChart] = useState();
+  const [errorCode, setErrorCode] = useState();
   const [data, setData] = useState({
     "check": "check test",
     "genre_data": [
@@ -108,8 +109,8 @@ function DashBoard(prop) {
   },[prop.menuSeleted])
 
   const checkChartData= () =>{
-      if(data.is_success === false){
-        switch(data.error_code){
+      if(errorCode.is_success === false){
+        switch(errorCode.error_code){
           case 0:
             alert("로그인이 만료되었습니다 다시 로그인 해주십시오");
             prop.logout();
@@ -163,8 +164,12 @@ function DashBoard(prop) {
           id: JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem('loginId'), sessionStorage.getItem("NickName")).toString(CryptoJS.enc.Utf8))['id']
         }
       });
-      setData(response.data);
-      setInLoad(false);
+      console.log(response);
+      if(response.data.is_success !== false){
+        setData(response.data);
+      }else{
+        setErrorCode(response.data);
+      }
     } catch (error) {
       console.log(error);
       setCheckChart(error.response.statue);
@@ -177,8 +182,10 @@ function DashBoard(prop) {
           id: JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem('loginId'), sessionStorage.getItem("NickName")).toString(CryptoJS.enc.Utf8))['id']
         }
       });
-      if(data.is_success === false){
-        switch(data.error_code){
+      console.log(response.data);
+      console.log("qwreas");
+      if(response.data.is_success === false){
+        switch(response.data.error_code){
           case 0:
             alert("로그인이 만료되었습니다 다시 로그인 해주십시오");
             prop.logout();
@@ -194,6 +201,7 @@ function DashBoard(prop) {
         }
       }
       setRecom(response.data);
+      setInLoad(false);
     } catch (error) {
       if(error.response.status === 500){
         alert("예상치 못한 에러가 발생했습니다");

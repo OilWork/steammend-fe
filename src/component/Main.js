@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Main.css';
 import { Link, useLocation } from "react-router-dom";
 import axios from 'axios';
@@ -49,7 +49,9 @@ function Main(prop) {
     setAgeValue(newValue);
   };
 
-
+  useEffect(() => {
+    setMainActiveIndex(0);
+  }, [])
 
   const location = useLocation();
 
