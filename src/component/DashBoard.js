@@ -127,6 +127,22 @@ function DashBoard(prop) {
           id: JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem('loginId'), sessionStorage.getItem("NickName")).toString(CryptoJS.enc.Utf8))['id']
         }
       });
+      if(response.data.is_success === false){
+        switch(response.data.error_code){
+          case "0":
+            alert("로그인이 만료되었습니다 다시 로그인 해주십시오");
+            prop.logout();
+            return;
+          case "2":
+            alert("계정의 게임 데이터가 너무 많이 존재합니다");
+            window.location.replace("/");
+            return;
+          default:
+            alert("계정의 플레이타임이 존재하지 않습니다 게임을 플레이 하시거나 프로필의 security를 확인해주세요");
+            window.location.replace("/");
+            return;
+        }
+      }
       setData(response.data)
       setInLoad(false);
     } catch (error) {
@@ -146,9 +162,17 @@ function DashBoard(prop) {
           id: JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem('loginId'), sessionStorage.getItem("NickName")).toString(CryptoJS.enc.Utf8))['id']
         }
       });
-      if(response.data.success = false){
-        alert("로그인이 만료되었습니다 다시 로그인 해주십시오");
-        prop.logout();
+      if(response.data.is_success === false){
+        switch(response.data.error_code){
+          case "0":
+            alert("로그인이 만료되었습니다 다시 로그인 해주십시오");
+            prop.logout();
+            return;
+          default:
+            alert("계정의 플레이타임이 존재하지 않습니다 게임을 플레이 하시거나 프로필의 security를 확인해주세요");
+            window.location.replace("/");
+            return;
+        }
       }
       setRecom(response.data);
     } catch (error) {

@@ -27,12 +27,7 @@
 	font-weight: bold;
 }
 
-.post-view-row>*:nth-child(2) {
-	word-break: break-word;
-	margin: 10px 20px;
-	width: 70%;
-	max-width: 70%;
-}
+
 
 
 .detailBox {

@@ -20,13 +20,16 @@ function Comm() {
 
 
     const getItems = useCallback(async () => {
+        let url=''
         switch(view){
             case 'all':
-                var url = `/api/allCommunity?page=${commPage}`;
+                url = `/api/allCommunity?page=${commPage}`;
                 break;
             case 'search':
-                var url = `/api/search?page=${commPage}&keyword=${filterHeader}`
+                url = `/api/search?page=${commPage}&keyword=${filterHeader}`
                 break;
+            default:
+                
         }
         await axios.get(url).then((res) => {
             setEndPage(true);
