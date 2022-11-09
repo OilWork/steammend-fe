@@ -108,7 +108,7 @@ function Main(prop) {
         setGameActiveIndex(5)
         break;
       default:
-        
+
     }
     
   }
@@ -187,8 +187,8 @@ function Main(prop) {
                   </div>
                   <nav className="main-nav" role="navigation">
                     <ul className="main-menu">
-                      <li className={mainActiveIndex === 0 ? "active" : ""} onClick={() => { tabClickHandler(0); }}>DashBoard</li>
-                      <li className={mainActiveIndex === 1 ? "active" : ""} onClick={() => { tabClickHandler(1); }}>Recommend Game</li>
+                      <li className={mainActiveIndex === 0 ? "active" : ""} onClick={() => { tabClickHandler(0); }}>Recommend Game</li>
+                      <li className={mainActiveIndex === 1 ? "active" : ""} onClick={() => { tabClickHandler(1); }}>DashBoard</li>
                     </ul>
                   </nav>
                 </div>}

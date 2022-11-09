@@ -15,6 +15,7 @@ function DashBoard(prop) {
   const [inLoad, setInLoad] = useState(true);
   const [recom, setRecom] = useState([]);
   const [indexSlide, setIndexSlide] = useState(0);
+  const [checkChart, setCheckChart] = useState();
   const [data, setData] = useState({
     "check": "check test",
     "genre_data": [
@@ -99,6 +100,41 @@ function DashBoard(prop) {
       }
     }
   }
+  useEffect(()=>{
+    console.log(prop.menuSeleted)
+    if(prop.menuSeleted===1){
+      checkChartData();
+    }
+  },[prop.menuSeleted])
+
+  const checkChartData= () =>{
+      if(data.is_success === false){
+        switch(data.error_code){
+          case 0:
+            alert("로그인이 만료되었습니다 다시 로그인 해주십시오");
+            prop.logout();
+            return;
+          case 2:
+            alert("계정의 게임 데이터가 너무 많이 존재합니다");
+            window.location.replace("/");
+            return;
+          default:
+            alert("계정의 플레이타임이 존재하지 않습니다 게임을 플레이 하시거나 프로필의 security를 확인해주세요");
+            window.location.replace("/");
+            return;
+        }
+      }else if(checkChart){
+        switch(checkChart){
+          case 500:
+            alert("잘못된 steamId64 입니다");
+            window.location.replace("/");
+            return;
+          default:
+            alert("예상치 못한 오류가 발생하였습니다");
+            window.location.replace("/");
+        }
+    }
+  }
 
   const publisherCanvasData = {
     labels: data.publishers.label,
@@ -127,32 +163,11 @@ function DashBoard(prop) {
           id: JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem('loginId'), sessionStorage.getItem("NickName")).toString(CryptoJS.enc.Utf8))['id']
         }
       });
-      if(response.data.is_success === false){
-        switch(response.data.error_code){
-          case "0":
-            alert("로그인이 만료되었습니다 다시 로그인 해주십시오");
-            prop.logout();
-            return;
-          case "2":
-            alert("계정의 게임 데이터가 너무 많이 존재합니다");
-            window.location.replace("/");
-            return;
-          default:
-            alert("계정의 플레이타임이 존재하지 않습니다 게임을 플레이 하시거나 프로필의 security를 확인해주세요");
-            window.location.replace("/");
-            return;
-        }
-      }
-      setData(response.data)
+      setData(response.data);
       setInLoad(false);
     } catch (error) {
-      if(error.response.status === 500){
-        alert("잘못된 steamId64 입니다");
-        window.location.replace("/");
-    }else{
-      alert("예상치 못한 오류가 발생하였습니다");
-      window.location.replace("/");
-    }
+      console.log(error);
+      setCheckChart(error.response.statue);
     }
   };
   async function getRecommend() {
@@ -162,11 +177,15 @@ function DashBoard(prop) {
           id: JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem('loginId'), sessionStorage.getItem("NickName")).toString(CryptoJS.enc.Utf8))['id']
         }
       });
-      if(response.data.is_success === false){
-        switch(response.data.error_code){
-          case "0":
+      if(data.is_success === false){
+        switch(data.error_code){
+          case 0:
             alert("로그인이 만료되었습니다 다시 로그인 해주십시오");
             prop.logout();
+            return;
+          case 2:
+            alert("계정의 게임 데이터가 너무 많이 존재합니다");
+            window.location.replace("/");
             return;
           default:
             alert("계정의 플레이타임이 존재하지 않습니다 게임을 플레이 하시거나 프로필의 security를 확인해주세요");
@@ -214,7 +233,7 @@ function DashBoard(prop) {
 
   return (
     <>
-    {prop.menuSeleted === 0 ?
+    {prop.menuSeleted === 1 ?
       inLoad ? <div className='Circular'>
         <br></br><br></br>
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -266,9 +285,8 @@ function DashBoard(prop) {
             </div>
           </div>
         </div>
-      </div> : !inLoad ? <><div className="container">
-
-
+      </div> : !inLoad ? 
+      <><div className="container">
       {recom[0] && <div className="mySlides" style={{display : indexSlide === 0 ? "block" : 'none'}}>
         <div className="numbertext">1 / 5</div>
         <img src={`https://cdn.akamai.steamstatic.com/steam/apps/${recom[0].appid}/header.jpg`} alt='' style={{width:'100%'}} />
@@ -307,7 +325,11 @@ function DashBoard(prop) {
           ))}
           
         </div>
-      </div> </> : ''}
+      </div> </> : <div className='Circular'>
+        <br></br><br></br>
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <CircularProgress size="10rem" />
+        </Box></div>}
 
 
     </>
