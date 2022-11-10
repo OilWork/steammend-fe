@@ -13,6 +13,7 @@ import CryptoJS from 'crypto-js';
 function DashBoard(prop) {
 
   const [inLoad, setInLoad] = useState(true);
+  const [chartInLoad, setChartInLoad] = useState(true);
   const [recom, setRecom] = useState([]);
   const [indexSlide, setIndexSlide] = useState(0);
   const [checkChart, setCheckChart] = useState();
@@ -102,14 +103,15 @@ function DashBoard(prop) {
     }
   }
   useEffect(()=>{
-    console.log(prop.menuSeleted)
     if(prop.menuSeleted===1){
       checkChartData();
     }
   },[prop.menuSeleted])
 
   const checkChartData= () =>{
+    if(errorCode){
       if(errorCode.is_success === false){
+        
         switch(errorCode.error_code){
           case 0:
             alert("로그인이 만료되었습니다 다시 로그인 해주십시오");
@@ -136,6 +138,7 @@ function DashBoard(prop) {
         }
     }
   }
+}
 
   const publisherCanvasData = {
     labels: data.publishers.label,
@@ -164,14 +167,13 @@ function DashBoard(prop) {
           id: JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem('loginId'), sessionStorage.getItem("NickName")).toString(CryptoJS.enc.Utf8))['id']
         }
       });
-      console.log(response);
       if(response.data.is_success !== false){
+        setChartInLoad(false);
         setData(response.data);
       }else{
         setErrorCode(response.data);
       }
     } catch (error) {
-      console.log(error);
       setCheckChart(error.response.statue);
     }
   };
@@ -182,8 +184,6 @@ function DashBoard(prop) {
           id: JSON.parse(CryptoJS.AES.decrypt(sessionStorage.getItem('loginId'), sessionStorage.getItem("NickName")).toString(CryptoJS.enc.Utf8))['id']
         }
       });
-      console.log(response.data);
-      console.log("qwreas");
       if(response.data.is_success === false){
         switch(response.data.error_code){
           case 0:
@@ -242,7 +242,7 @@ function DashBoard(prop) {
   return (
     <>
     {prop.menuSeleted === 1 ?
-      inLoad ? <div className='Circular'>
+      chartInLoad ? <div className='Circular'>
         <br></br><br></br>
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
           <CircularProgress size="10rem" />
